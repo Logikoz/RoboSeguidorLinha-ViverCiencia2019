@@ -6,8 +6,8 @@
     xmlns:local="clr-namespace:ReacaoRobo.Views"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="TelaPrincipalView"
-    Width="800"
+    Title="Reaçoes do Robo"
+    Width="1000"
     Height="450"
     Background="{DynamicResource MaterialDesignPaper}"
     FontFamily="{DynamicResource MaterialDesignFont}"
@@ -17,9 +17,56 @@
     TextOptions.TextFormattingMode="Ideal"
     TextOptions.TextRenderingMode="Auto"
     mc:Ignorable="d">
-    <Grid >
-        <materialDesign:Card VerticalAlignment="Top" Background="{StaticResource Primary200}" Height="100">
-            
+    <Grid>
+        <materialDesign:Card
+            Height="70"
+            VerticalAlignment="Top"
+            materialDesign:ShadowAssist.ShadowDepth="Depth3"
+            materialDesign:ShadowAssist.ShadowEdges="Bottom"
+            Background="{StaticResource PrimaryHueMidBrush}">
+            <Grid>
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <TextBlock
+                        FontWeight="Bold"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignHeadlineTextBlock}"
+                        Text="Viver Ciencia" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontWeight="Bold"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignTitleTextBlock}"
+                        Text="2019" />
+                </StackPanel>
+            </Grid>
         </materialDesign:Card>
+        <Grid Margin="0,70,0,0">
+            <Image
+                MaxWidth="250"
+                Margin="50"
+                HorizontalAlignment="Left"
+                Source="/Recursos/RoboViverCiencia.png" />
+            <Image
+                MaxWidth="250"
+                Margin="50"
+                HorizontalAlignment="Right"
+                Source="/Recursos/RoboViverCiencia.png" />
+            <Grid
+                Margin="250,20,250,20"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <materialDesign:Card Grid.Row="0" VerticalAlignment="Stretch" />
+                <materialDesign:Card Grid.Row="2" VerticalAlignment="Stretch" />
+
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
