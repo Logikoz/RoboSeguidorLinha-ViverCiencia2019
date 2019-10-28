@@ -110,7 +110,12 @@
                             </materialDesign:PopupBox.ToggleContent>
                             <StackPanel Margin="10" Orientation="Vertical">
                                 <TextBlock HorizontalAlignment="Center" ToolTip="Indica se as requisiçoes seram feitas">
-                                    <ToggleButton VerticalAlignment="Center" IsChecked="{Binding StatusRequisicao, Mode=TwoWay}" />
+                                    <ToggleButton
+                                        x:Name="StatusRequisicao_tb"
+                                        VerticalAlignment="Center"
+                                        Command="{Binding StatusRequisicao}"
+                                        CommandParameter="{Binding ElementName=StatusRequisicao_tb}"
+                                        IsChecked="{x:Null}" />
                                     <Run Text=" " />
                                     <Run BaselineAlignment="Center" Text="Ligado" />
                                 </TextBlock>

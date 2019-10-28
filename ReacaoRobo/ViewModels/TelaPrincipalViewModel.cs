@@ -1,4 +1,5 @@
-﻿using ReacaoRobo.Models;
+﻿using GalaSoft.MvvmLight.Command;
+using ReacaoRobo.Models;
 using ReacaoRobo.Services;
 using ReacaoRobo.Views;
 using RestSharp;
@@ -8,6 +9,7 @@ using System.ComponentModel;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Threading;
 
@@ -21,7 +23,6 @@ namespace ReacaoRobo.ViewModels
         private string _servidorURI = "http://192.168.0.0";
         private string _tempoRequisicao = "300";
         private DispatcherTimer timerRequisicao;
-        private bool _statusRequisicao = true;
         private readonly TelaPrincipalView tela;
         //propriedades
         public Border StatusRobo
@@ -53,36 +54,15 @@ namespace ReacaoRobo.ViewModels
                 ChangeValue("TempoRequisicao");
             }
         }
-        public bool StatusRequisicao
-        {
-            get => _statusRequisicao;
-            set
-            {
-                if (_statusRequisicao = value)
-                    HandleChecked();
-                else
-                    HandleUnchecked();
-                ChangeValue("StatusRequisicao");
-            }
-        }
-
-        private void HandleUnchecked()
-        {
-            timerRequisicao.Stop();
-            AlterarStatusRobo(StatusRoboEnum.Desconhecido);
-        }
-
-        private void HandleChecked()
-        {
-            timerRequisicao.Start();
-            tela.CaixaRespostaRequisicao_rtb.Document.Blocks.Clear();
-        }
+        public RelayCommand<ToggleButton> StatusRequisicao { get; private set; }
 
         //construtores
         public TelaPrincipalViewModel(TelaPrincipalView tela)
         {
+            AlterarStatusRobo(StatusRoboEnum.Desconhecido);
             IniciarTimer();
             this.tela = tela;
+            StatusRequisicao = new RelayCommand<ToggleButton>(HandleChecked);
         }
 
         //metodos
@@ -91,32 +71,42 @@ namespace ReacaoRobo.ViewModels
         {
             timerRequisicao = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 0, 300) };
             timerRequisicao.Tick += TimerRequisicao_Tick;
-            timerRequisicao.Start();
         }
         private void TimerRequisicao_Tick(object sender, EventArgs e) => FazendoRequisicoesAsync();
+        //requisiçoes estao ligadas ou nao
+        private void HandleChecked(ToggleButton tb)
+        {
+            if (tb.IsChecked.Value)
+            {
+                timerRequisicao.Start();
+                tela.CaixaRespostaRequisicao_rtb.Document.Blocks.Clear();
+            }
+            else
+            {
+                timerRequisicao.Stop();
+                timerRequisicao.IsEnabled = false;
+                AlterarStatusRobo(StatusRoboEnum.Desconhecido);
+            }
+        }
         private async void FazendoRequisicoesAsync()
         {
             IRestResponse response = await ReacaoRoboService.VerificarReacaoAsync(ServidorURI, TempoRequisisaoToInt());
 
-            AdicionarNovaLinha(response.StatusCode == 0 ? "Requisiçao falhou." : response.StatusCode.ToString());
-
-            switch (response.StatusCode)
+            if (response.IsSuccessful)
             {
-                case HttpStatusCode.OK:
-                    try
-                    {
+                switch (response.StatusCode)
+                {
+                    case HttpStatusCode.OK:
                         ReacaoModel reacao = new JsonDeserializer().Deserialize<ReacaoModel>(response);
+                        AdicionarNovaLinha(response.StatusCode.ToString());
                         AdicionarNovaLinha(reacao.CardID);
                         AlterarStatusRobo(StatusRoboEnum.Conectado);
-                    }
-                    catch
-                    {
+                        break;
+                    default:
+                        AdicionarNovaLinha("Requisiçao falhou.");
                         AlterarStatusRobo(StatusRoboEnum.Desconectado);
-                    }
-                    break;
-                default:
-                    AlterarStatusRobo(StatusRoboEnum.Desconectado);
-                    break;
+                        break;
+                }
             }
         }
 
@@ -146,7 +136,7 @@ namespace ReacaoRobo.ViewModels
                     ((border.Child as TextBlock).Text, border.Background) = ("Desconhecido", Brushes.Gray);
                     break;
             }
-            
+
             StatusRobo = border;
         }
     }
