@@ -8,9 +8,7 @@ using System.ComponentModel;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Media;
-using System.Windows.Media.TextFormatting;
 using System.Windows.Threading;
 
 namespace ReacaoRobo.ViewModels
@@ -21,6 +19,7 @@ namespace ReacaoRobo.ViewModels
         //campos
         private Border _statusRobo;
         private string _servidorURI = "http://192.168.0.0";
+        private string _tempoRequisicao = "300";
         private DispatcherTimer timerRequisicao;
         private readonly TelaPrincipalView tela;
         //propriedades
@@ -42,6 +41,17 @@ namespace ReacaoRobo.ViewModels
                 ChangeValue("ServidorURI");
             }
         }
+        public string TempoRequisicao
+        {
+            get => _tempoRequisicao;
+            set
+            {
+                _tempoRequisicao = value;
+                _ = int.TryParse(value, out int result);
+                timerRequisicao.Interval = new TimeSpan(0, 0, 0, 0, result);
+                ChangeValue("TempoRequisicao");
+            }
+        }
         //construtor
         public TelaPrincipalViewModel(TelaPrincipalView tela)
         {
@@ -57,24 +67,29 @@ namespace ReacaoRobo.ViewModels
             timerRequisicao.Tick += TimerRequisicao_Tick;
             timerRequisicao.Start();
         }
-
-        private void TimerRequisicao_Tick(object sender, EventArgs e)
-        {
-            NewMethod();
-        }
-
-        private async void NewMethod()
+        private void TimerRequisicao_Tick(object sender, EventArgs e) => FazendoRequisicoesAsync();
+        private async void FazendoRequisicoesAsync()
         {
             //fazer requisiçoes
             IRestResponse response = await ReacaoRoboService.VerificarReacaoAsync(ServidorURI);
+            Console.WriteLine(response.Content);
 
             AdicionarNovaLinha(response.StatusCode == 0 ? "Requisiçao falhou." : response.StatusCode.ToString());
 
             switch (response.StatusCode)
             {
                 case HttpStatusCode.OK:
-                    ReacaoModel reacao = new JsonDeserializer().Deserialize<ReacaoModel>(response);
-                    AlterarStatusRobo(true);
+                    try
+                    {
+                        RootObject reacao = new JsonDeserializer().Deserialize<RootObject>(response);
+
+                        AlterarStatusRobo(true);
+                    }
+                    catch
+                    {
+
+                        AlterarStatusRobo(false);
+                    }
                     break;
                 case HttpStatusCode.NotFound:
                     AlterarStatusRobo(false);
@@ -84,8 +99,11 @@ namespace ReacaoRobo.ViewModels
                     break;
             }
         }
-        private void AdicionarNovaLinha(string valor) => tela.CaixaRespostaRequisicao_rtb.AppendText($"{DateTime.Now.ToString("HH:mm")}: {valor}{Environment.NewLine}");
-
+        private void AdicionarNovaLinha(string valor)
+        {
+            tela.CaixaRespostaRequisicao_rtb.AppendText($"{DateTime.Now.ToString("HH:mm")}: {valor}\n");
+            tela.CaixaRespostaRequisicao_rtb.ScrollToEnd();
+        }
         private void AlterarStatusRobo(bool status)
         {
             Border border = new Border() { CornerRadius = new CornerRadius(10), Child = new TextBlock { Foreground = Brushes.White, Padding = new Thickness(4, 3, 4, 3) } };
