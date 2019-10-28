@@ -66,7 +66,11 @@ namespace ReacaoRobo.ViewModels
             }
         }
 
-        private void HandleUnchecked() => timerRequisicao.Stop();
+        private void HandleUnchecked()
+        {
+            timerRequisicao.Stop();
+            AlterarStatusRobo(StatusRoboEnum.Desconhecido);
+        }
 
         private void HandleChecked()
         {
@@ -103,15 +107,15 @@ namespace ReacaoRobo.ViewModels
                     {
                         ReacaoModel reacao = new JsonDeserializer().Deserialize<ReacaoModel>(response);
                         AdicionarNovaLinha(reacao.CardID);
-                        AlterarStatusRobo(true);
+                        AlterarStatusRobo(StatusRoboEnum.Conectado);
                     }
                     catch
                     {
-                        AlterarStatusRobo(false);
+                        AlterarStatusRobo(StatusRoboEnum.Desconectado);
                     }
                     break;
                 default:
-                    AlterarStatusRobo(false);
+                    AlterarStatusRobo(StatusRoboEnum.Desconectado);
                     break;
             }
         }
@@ -127,13 +131,22 @@ namespace ReacaoRobo.ViewModels
             tela.CaixaRespostaRequisicao_rtb.AppendText($"{DateTime.Now.ToString("HH:mm")}: {valor}\n");
             tela.CaixaRespostaRequisicao_rtb.ScrollToEnd();
         }
-        private void AlterarStatusRobo(bool status)
+        private void AlterarStatusRobo(StatusRoboEnum status)
         {
             Border border = new Border() { CornerRadius = new CornerRadius(10), Child = new TextBlock { Foreground = Brushes.White, Padding = new Thickness(4, 3, 4, 3) } };
-            if (status)
-                ((border.Child as TextBlock).Text, border.Background) = ("Conectado", Brushes.Green);
-            else
-                ((border.Child as TextBlock).Text, border.Background) = ("Desconectado", Brushes.Red);
+            switch (status)
+            {
+                case StatusRoboEnum.Conectado:
+                    ((border.Child as TextBlock).Text, border.Background) = ("Conectado", Brushes.Green);
+                    break;
+                case StatusRoboEnum.Desconectado:
+                    ((border.Child as TextBlock).Text, border.Background) = ("Desconectado", Brushes.Red);
+                    break;
+                case StatusRoboEnum.Desconhecido:
+                    ((border.Child as TextBlock).Text, border.Background) = ("Desconhecido", Brushes.Gray);
+                    break;
+            }
+            
             StatusRobo = border;
         }
     }

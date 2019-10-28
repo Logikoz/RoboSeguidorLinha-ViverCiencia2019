@@ -4,11 +4,5 @@
     {
         public string CardID { get; set; }
     }
-    public class RootObject
-    {
-        public int userId { get; set; }
-        public int id { get; set; }
-        public string title { get; set; }
-        public string body { get; set; }
-    }
+    public enum StatusRoboEnum { Conectado = 0, Desconectado = 1, Desconhecido = 2 }
 }
