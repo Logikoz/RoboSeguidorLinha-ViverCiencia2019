@@ -7,7 +7,7 @@ namespace ReacaoRobo.Services
     {
         public static async Task<IRestResponse> VerificarReacaoAsync(string uri)
         {
-            return await new RestClient(uri).ExecuteGetTaskAsync(new RestRequest(string.Empty, Method.GET, DataFormat.Json));
+            return await new RestClient(uri).ExecuteGetTaskAsync(new RestRequest("/", Method.GET, DataFormat.Json));
         }
     }
 }

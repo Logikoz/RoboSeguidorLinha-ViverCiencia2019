@@ -8,7 +8,9 @@ using System.ComponentModel;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Media.TextFormatting;
 using System.Windows.Threading;
 
 namespace ReacaoRobo.ViewModels
@@ -66,7 +68,7 @@ namespace ReacaoRobo.ViewModels
             //fazer requisiçoes
             IRestResponse response = await ReacaoRoboService.VerificarReacaoAsync(ServidorURI);
 
-            AdicionarNovaLinha(response.StatusCode.ToString());
+            AdicionarNovaLinha(response.StatusCode == 0 ? "Requisiçao falhou." : response.StatusCode.ToString());
 
             switch (response.StatusCode)
             {
@@ -82,11 +84,7 @@ namespace ReacaoRobo.ViewModels
                     break;
             }
         }
-        private void AdicionarNovaLinha(string valor)
-        {
-            tela.CaixaRespostaRequisicao_rtb.AppendText(DateTime.Now.ToString("HH:mm"));
-            tela.CaixaRespostaRequisicao_rtb.AppendText(valor);
-        }
+        private void AdicionarNovaLinha(string valor) => tela.CaixaRespostaRequisicao_rtb.AppendText($"{DateTime.Now.ToString("HH:mm")}: {valor}{Environment.NewLine}");
 
         private void AlterarStatusRobo(bool status)
         {
