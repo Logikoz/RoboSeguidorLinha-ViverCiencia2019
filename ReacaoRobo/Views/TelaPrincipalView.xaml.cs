@@ -23,7 +23,7 @@ namespace ReacaoRobo.Views
         public TelaPrincipalView()
         {
             InitializeComponent();
-            DataContext = new TelaPrincipalViewModel();
+            DataContext = new TelaPrincipalViewModel(this);
         }
     }
 }

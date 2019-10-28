@@ -47,37 +47,50 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition MaxWidth="250" />
                 <ColumnDefinition Width="*" MinWidth="450" />
-                <ColumnDefinition MaxWidth="250" />
+                <ColumnDefinition Width="200" />
             </Grid.ColumnDefinitions>
             <Image
                 Grid.Column="0"
                 MaxWidth="150"
                 Margin="10"
                 HorizontalAlignment="Center"
+                VerticalAlignment="Center"
                 Source="/Recursos/RoboViverCiencia.png" />
-            <Image
-                Grid.Column="2"
-                MaxWidth="150"
-                Margin="10"
-                HorizontalAlignment="Center"
-                Source="/Recursos/RoboViverCiencia.png" />
+            <Grid Grid.Column="2" Margin="10">
+                <TextBlock
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    Text="Requisiçoes" />
+                <RichTextBox x:Name="CaixaRespostaRequisicao_rtb" Margin="0,30,0,0" />
+            </Grid>
             <Grid
                 Grid.Column="1"
                 Margin="30"
                 VerticalAlignment="Stretch">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="50" />
+                    <RowDefinition Height="60" />
                     <RowDefinition Height="10" />
                     <RowDefinition Height="*" MaxHeight="400" />
                 </Grid.RowDefinitions>
                 <materialDesign:Card Grid.Row="0" VerticalAlignment="Stretch">
-                    <StackPanel Margin="10" Orientation="Horizontal">
-                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                            <TextBlock VerticalAlignment="Center" Text="Status do Robo: " />
-                            <Label Content="{Binding StatusRobo, Mode=TwoWay}" />
+                    <Grid Margin="10">
+                        <StackPanel
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock VerticalAlignment="Center" Text="Status do Robo: " />
+                                <Label Content="{Binding StatusRobo, Mode=TwoWay}" />
+                            </StackPanel>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" />
-                    </StackPanel>
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                            <TextBox
+                                Width="200"
+                                materialDesign:HintAssist.Hint="IP do Servidor"
+                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                Text="{Binding ServidorURI, Mode=OneWay}" />
+                        </StackPanel>
+                    </Grid>
                 </materialDesign:Card>
                 <materialDesign:Card Grid.Row="2" VerticalAlignment="Stretch" />
             </Grid>

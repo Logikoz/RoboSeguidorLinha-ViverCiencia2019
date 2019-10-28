@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ReacaoRobo.Models
 {
-    class TelaPrincipalModel
+    internal class ReacaoModel
     {
-
+        public string CardID { get; set; }
     }
 }
