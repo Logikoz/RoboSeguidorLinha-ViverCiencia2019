@@ -5,9 +5,9 @@ namespace ReacaoRobo.Services
 {
     internal class ReacaoRoboService
     {
-        public static async Task<IRestResponse> VerificarReacaoAsync(string uri)
+        public static async Task<IRestResponse> VerificarReacaoAsync(string uri, int timeOut = 300)
         {
-            return await new RestClient(uri).ExecuteGetTaskAsync(new RestRequest(string.Empty, Method.GET, DataFormat.Json));
+            return await new RestClient(uri) { Timeout = timeOut }.ExecuteGetTaskAsync(new RestRequest(string.Empty, Method.GET, DataFormat.Json));
         }
     }
 }

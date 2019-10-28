@@ -21,6 +21,7 @@ namespace ReacaoRobo.ViewModels
         private string _servidorURI = "http://192.168.0.0";
         private string _tempoRequisicao = "300";
         private DispatcherTimer timerRequisicao;
+        private bool _statusRequisicao = true;
         private readonly TelaPrincipalView tela;
         //propriedades
         public Border StatusRobo
@@ -52,7 +53,28 @@ namespace ReacaoRobo.ViewModels
                 ChangeValue("TempoRequisicao");
             }
         }
-        //construtor
+        public bool StatusRequisicao
+        {
+            get => _statusRequisicao;
+            set
+            {
+                if (_statusRequisicao = value)
+                    HandleChecked();
+                else
+                    HandleUnchecked();
+                ChangeValue("StatusRequisicao");
+            }
+        }
+
+        private void HandleUnchecked() => timerRequisicao.Stop();
+
+        private void HandleChecked()
+        {
+            timerRequisicao.Start();
+            tela.CaixaRespostaRequisicao_rtb.Document.Blocks.Clear();
+        }
+
+        //construtores
         public TelaPrincipalViewModel(TelaPrincipalView tela)
         {
             IniciarTimer();
@@ -70,9 +92,7 @@ namespace ReacaoRobo.ViewModels
         private void TimerRequisicao_Tick(object sender, EventArgs e) => FazendoRequisicoesAsync();
         private async void FazendoRequisicoesAsync()
         {
-            //fazer requisiçoes
-            IRestResponse response = await ReacaoRoboService.VerificarReacaoAsync(ServidorURI);
-            Console.WriteLine(response.Content);
+            IRestResponse response = await ReacaoRoboService.VerificarReacaoAsync(ServidorURI, TempoRequisisaoToInt());
 
             AdicionarNovaLinha(response.StatusCode == 0 ? "Requisiçao falhou." : response.StatusCode.ToString());
 
@@ -81,24 +101,27 @@ namespace ReacaoRobo.ViewModels
                 case HttpStatusCode.OK:
                     try
                     {
-                        RootObject reacao = new JsonDeserializer().Deserialize<RootObject>(response);
-
+                        ReacaoModel reacao = new JsonDeserializer().Deserialize<ReacaoModel>(response);
+                        AdicionarNovaLinha(reacao.CardID);
                         AlterarStatusRobo(true);
                     }
                     catch
                     {
-
                         AlterarStatusRobo(false);
                     }
-                    break;
-                case HttpStatusCode.NotFound:
-                    AlterarStatusRobo(false);
                     break;
                 default:
                     AlterarStatusRobo(false);
                     break;
             }
         }
+
+        private int TempoRequisisaoToInt()
+        {
+            _ = int.TryParse(_tempoRequisicao, out int result);
+            return result;
+        }
+
         private void AdicionarNovaLinha(string valor)
         {
             tela.CaixaRespostaRequisicao_rtb.AppendText($"{DateTime.Now.ToString("HH:mm")}: {valor}\n");

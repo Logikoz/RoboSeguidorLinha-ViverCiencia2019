@@ -109,6 +109,11 @@
                                 </StackPanel>
                             </materialDesign:PopupBox.ToggleContent>
                             <StackPanel Margin="10" Orientation="Vertical">
+                                <TextBlock HorizontalAlignment="Center" ToolTip="Indica se as requisiçoes seram feitas">
+                                    <ToggleButton VerticalAlignment="Center" IsChecked="{Binding StatusRequisicao, Mode=TwoWay}" />
+                                    <Run Text=" " />
+                                    <Run BaselineAlignment="Center" Text="Ligado" />
+                                </TextBlock>
                                 <TextBox
                                     Width="200"
                                     materialDesign:HintAssist.Hint="IP do Servidor"
@@ -122,7 +127,13 @@
                         </materialDesign:PopupBox>
                     </Grid>
                 </materialDesign:Card>
-                <materialDesign:Card Grid.Row="2" VerticalAlignment="Stretch" />
+                <materialDesign:Card Grid.Row="2" VerticalAlignment="Stretch">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        Text="Reaçao aqui" />
+                </materialDesign:Card>
             </Grid>
             <Grid Grid.Column="2" Margin="10,0,10,0">
                 <GroupBox Style="{StaticResource MaterialDesignCardGroupBox}">
