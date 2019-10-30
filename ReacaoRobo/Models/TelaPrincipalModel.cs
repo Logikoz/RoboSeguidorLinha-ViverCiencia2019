@@ -3,6 +3,10 @@
     internal class ReacaoModel
     {
         public string CardID { get; set; }
+        public string Caminho { get; set; }
+        public CategoriaReacoes? Caterogia { get; set; }
+        public string Descricao { get; set; }
     }
-    public enum StatusRoboEnum { Conectado = 0, Desconectado = 1, Desconhecido = 2 }
+    public enum StatusRoboEnum { Conectado, Desconectado, Desconhecido }
+    public enum CategoriaReacoes { Raiva, Ansiedade, Tristeza, Felicidade, Prazer }
 }

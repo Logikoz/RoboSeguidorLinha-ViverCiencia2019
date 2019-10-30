@@ -114,8 +114,7 @@
                                         x:Name="StatusRequisicao_tb"
                                         VerticalAlignment="Center"
                                         Command="{Binding StatusRequisicao}"
-                                        CommandParameter="{Binding ElementName=StatusRequisicao_tb}"
-                                        IsChecked="{x:Null}" />
+                                        CommandParameter="{Binding ElementName=StatusRequisicao_tb}" />
                                     <Run Text=" " />
                                     <Run BaselineAlignment="Center" Text="Ligado" />
                                 </TextBlock>
@@ -160,10 +159,15 @@
 
             </Grid>
         </Grid>
-        <materialDesign:Card
+        <GroupBox
             Grid.Row="2"
             Margin="10"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch" />
+            VerticalAlignment="Stretch"
+            materialDesign:ShadowAssist.ShadowDepth="Depth3"
+            Header="Descriçao"
+            Style="{StaticResource MaterialDesignGroupBox}">
+            <TextBlock Margin="10" Text="Descriçao" />
+        </GroupBox>
     </Grid>
 </Window>

@@ -102,9 +102,12 @@ namespace ReacaoRobo.ViewModels
                         AdicionarNovaLinha(reacao.CardID);
                         AlterarStatusRobo(StatusRoboEnum.Conectado);
                         break;
-                    default:
+                    case 0:
                         AdicionarNovaLinha("Requisiçao falhou.");
                         AlterarStatusRobo(StatusRoboEnum.Desconectado);
+                        break;
+                    default:
+                        AlterarStatusRobo(StatusRoboEnum.Desconhecido);
                         break;
                 }
             }
