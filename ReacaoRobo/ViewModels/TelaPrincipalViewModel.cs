@@ -1,16 +1,21 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using MaterialDesignThemes.Wpf;
 using ReacaoRobo.Models;
 using ReacaoRobo.Services;
 using ReacaoRobo.Views;
 using RestSharp;
 using RestSharp.Serialization.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace ReacaoRobo.ViewModels
@@ -22,8 +27,12 @@ namespace ReacaoRobo.ViewModels
         private Border _statusRobo;
         private string _servidorURI = "http://192.168.0.0";
         private string _tempoRequisicao = "300";
+        private string _textoDescricao;
+
         private DispatcherTimer timerRequisicao;
         private readonly TelaPrincipalView tela;
+        private List<ReacaoModel> imagens;
+        private ReacaoModel reacaoAnterior;
         //propriedades
         public Border StatusRobo
         {
@@ -55,6 +64,15 @@ namespace ReacaoRobo.ViewModels
             }
         }
         public RelayCommand<ToggleButton> StatusRequisicao { get; private set; }
+        public string TextoDescricao
+        {
+            get => _textoDescricao;
+            set
+            {
+                _textoDescricao = value;
+                ChangeValue("TextoDescricao");
+            }
+        }
 
         //construtores
         public TelaPrincipalViewModel(TelaPrincipalView tela)
@@ -63,6 +81,7 @@ namespace ReacaoRobo.ViewModels
             IniciarTimer();
             this.tela = tela;
             StatusRequisicao = new RelayCommand<ToggleButton>(HandleChecked);
+            LerLocalJson();
         }
 
         //metodos
@@ -100,6 +119,9 @@ namespace ReacaoRobo.ViewModels
                         ReacaoModel reacao = new JsonDeserializer().Deserialize<ReacaoModel>(response);
                         AdicionarNovaLinha(response.StatusCode.ToString());
                         AdicionarNovaLinha(reacao.CardID);
+
+                        VisualizarReacao(reacao);
+
                         AlterarStatusRobo(StatusRoboEnum.Conectado);
                         break;
                     case 0:
@@ -110,6 +132,23 @@ namespace ReacaoRobo.ViewModels
                         AlterarStatusRobo(StatusRoboEnum.Desconhecido);
                         break;
                 }
+            }
+        }
+        private async void LerLocalJson()
+        {
+            using StreamReader ler = File.OpenText("./reacoes.json");
+            imagens = SimpleJson.DeserializeObject<List<ReacaoModel>>(await ler.ReadToEndAsync());
+        }
+        private void VisualizarReacao(ReacaoModel reacao)
+        {
+            if (reacaoAnterior is null || reacao.CardID != reacaoAnterior.CardID)
+            {
+                ReacaoModel reacaoModel = imagens.First(i => i.CardID == reacao.CardID);
+                TextoDescricao = reacaoModel.Descricao;
+                string imagem = reacaoModel.Caminho;
+                tela.GridImagens_gd.Children.Clear();
+                tela.GridImagens_gd.Children.Add(new Card { Content = new Image { Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + imagem)) } });
+                reacaoAnterior = reacaoModel;
             }
         }
 

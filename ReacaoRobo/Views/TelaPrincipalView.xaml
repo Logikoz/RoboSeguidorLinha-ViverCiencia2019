@@ -131,13 +131,15 @@
                         </materialDesign:PopupBox>
                     </Grid>
                 </materialDesign:Card>
-                <materialDesign:Card Grid.Row="2" VerticalAlignment="Stretch">
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontSize="20"
-                        Text="Reaçao aqui" />
-                </materialDesign:Card>
+                <Grid x:Name="GridImagens_gd" Grid.Row="2">
+                    <materialDesign:Card VerticalAlignment="Stretch">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="20"
+                            Text="Olá mundo." />
+                    </materialDesign:Card>
+                </Grid>
             </Grid>
             <Grid Grid.Column="2" Margin="10,0,10,0">
                 <GroupBox Style="{StaticResource MaterialDesignCardGroupBox}">
@@ -165,9 +167,8 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             materialDesign:ShadowAssist.ShadowDepth="Depth3"
-            Header="Descriçao"
             Style="{StaticResource MaterialDesignGroupBox}">
-            <TextBlock Margin="10" Text="Descriçao" />
+            <TextBlock Margin="10" Text="{Binding TextoDescricao}" />
         </GroupBox>
     </Grid>
 </Window>
