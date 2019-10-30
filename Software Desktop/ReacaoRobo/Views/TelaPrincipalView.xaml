@@ -186,5 +186,13 @@
                 Text="{Binding TextoDescricao}"
                 TextWrapping="Wrap" />
         </GroupBox>
+        <materialDesign:Snackbar
+            x:Name="BarraNotificacao_sb"
+            Grid.Row="2"
+            Margin="20"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            MessageQueue="{materialDesign:MessageQueue}"
+            Opacity=".65" />
     </Grid>
 </Window>

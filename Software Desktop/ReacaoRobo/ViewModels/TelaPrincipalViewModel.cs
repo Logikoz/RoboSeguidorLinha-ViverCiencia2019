@@ -33,6 +33,7 @@ namespace ReacaoRobo.ViewModels
         private readonly TelaPrincipalView tela;
         private List<ReacaoModel> imagens;
         private ReacaoModel reacaoAnterior;
+        private ToggleButton desligarToggleButton;
 
         //propriedades
         public Border StatusRobo
@@ -97,6 +98,7 @@ namespace ReacaoRobo.ViewModels
         //requisiçoes estao ligadas ou nao
         private void HandleChecked(ToggleButton tb)
         {
+            desligarToggleButton = tb;
             if (tb.IsChecked.Value)
             {
                 timerRequisicao.Start();
@@ -104,8 +106,8 @@ namespace ReacaoRobo.ViewModels
             }
             else
             {
-                timerRequisicao.Stop();
-                timerRequisicao.IsEnabled = false;
+                if (timerRequisicao.IsEnabled)
+                    timerRequisicao.Stop();
                 AlterarStatusRobo(StatusRoboEnum.Desconhecido);
                 LimparVisualizacao(StatusRoboEnum.Desconhecido);
             }
@@ -113,17 +115,25 @@ namespace ReacaoRobo.ViewModels
         //faz as requisiçoes para verificar se há alguma reaçao para ser mostrada.
         private async void FazendoRequisicoesAsync()
         {
+            //verificando se a uri está no formato correto.
+            if (!VerificarValidadeURI())
+                return;
+            //fazendo requisiçao
             IRestResponse response = await ReacaoRoboService.VerificarReacaoAsync(ServidorURI, TempoRequisisaoToInt());
-
+            //corrigindo bug
+            //desmarca o toggleButton caso ainda tenha uma requisiçao em andamento.
+            if (!desligarToggleButton.IsChecked.Value)
+            {
+                HandleChecked(desligarToggleButton);
+                return;
+            }
+            //verificando status da requisiçao e adicionando reaçoes caso OK.
             switch (response.StatusCode)
             {
                 case HttpStatusCode.OK:
                     ReacaoModel reacao = new JsonDeserializer().Deserialize<ReacaoModel>(response);
                     AdicionarNovaLinha(response.StatusCode.ToString());
-                    //AdicionarNovaLinha(reacao.CardID);
-
                     VisualizarReacao(reacao);
-
                     AlterarStatusRobo(StatusRoboEnum.Conectado);
                     break;
                 case 0:
@@ -137,6 +147,7 @@ namespace ReacaoRobo.ViewModels
                     break;
             }
         }
+
         //Ler o arquivo json que está na ./ do app.
         private async void LerLocalJson()
         {
@@ -176,6 +187,7 @@ namespace ReacaoRobo.ViewModels
                 }
             }
         }
+        //converte o tempo da requisiçao para inteiro.
         private int TempoRequisisaoToInt()
         {
             _ = int.TryParse(TempoRequisicao, out int result);
@@ -224,6 +236,21 @@ namespace ReacaoRobo.ViewModels
                 case StatusRoboEnum.Desconhecido:
                     ((tela.GridImagens_gd.Children[0] as Card).Content as TextBlock).Text = "Olá mundo!";
                     break;
+            }
+        }
+        private bool VerificarValidadeURI()
+        {
+            try
+            {
+                _ = new Uri(ServidorURI);
+                return true;
+            }
+            catch
+            {
+                tela.BarraNotificacao_sb.MessageQueue.Enqueue("Formato do IP do servidor é inválido.");
+                desligarToggleButton.IsChecked = false;
+                HandleChecked(desligarToggleButton);
+                return false;
             }
         }
     }
