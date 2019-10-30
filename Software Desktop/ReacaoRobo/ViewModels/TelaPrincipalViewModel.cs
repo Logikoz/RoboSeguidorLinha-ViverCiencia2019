@@ -109,6 +109,7 @@ namespace ReacaoRobo.ViewModels
                 AlterarStatusRobo(StatusRoboEnum.Desconhecido);
             }
         }
+        //faz as requisiçoes para verificar se há alguma reaçao para ser mostrada.
         private async void FazendoRequisicoesAsync()
         {
             IRestResponse response = await ReacaoRoboService.VerificarReacaoAsync(ServidorURI, TempoRequisisaoToInt());
@@ -133,23 +134,36 @@ namespace ReacaoRobo.ViewModels
                     break;
             }
         }
+        //Ler o arquivo json que está na ./ do app.
         private async void LerLocalJson()
         {
             using StreamReader ler = File.OpenText("./reacoes.json");
             imagens = SimpleJson.DeserializeObject<List<ReacaoModel>>(await ler.ReadToEndAsync());
         }
+        //adiciona uma nova reaçao na tela
         private void VisualizarReacao(ReacaoModel reacao)
         {
             if (reacaoAnterior is null || reacao.CardID != reacaoAnterior.CardID)
             {
                 try
                 {
-                    ReacaoModel reacaoModel = imagens.First(i => i.CardID == reacao.CardID);
-                    TextoDescricao = reacaoModel.Descricao;
-                    string imagem = reacaoModel.Caminho;
+                    //criando lista com os ID iguais ao da requisiçao.
+                    List<ReacaoModel> filterItens = imagens.Where(a => a.CardID == reacao.CardID).ToList();
+                    //sortiando um item da lista.
+                    ReacaoModel sortedItem = filterItens[new Random().Next(0, filterItens.Count)];
+                    TextoDescricao = sortedItem.Descricao;
+                    string imagem = sortedItem.Caminho;
                     tela.GridImagens_gd.Children.Clear();
-                    tela.GridImagens_gd.Children.Add(new Card { Content = new Image { Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + imagem)), Stretch = Stretch.UniformToFill } });
-                    reacaoAnterior = reacaoModel;
+                    _ = tela.GridImagens_gd.Children.Add(
+                        new Card
+                        {
+                            Content = new Image
+                            {
+                                Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + imagem)),
+                                Stretch = Stretch.Uniform
+                            }
+                        }                    );
+                    reacaoAnterior = sortedItem;
                 }
                 catch
                 {
