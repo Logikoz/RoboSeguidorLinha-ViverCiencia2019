@@ -107,6 +107,7 @@ namespace ReacaoRobo.ViewModels
                 timerRequisicao.Stop();
                 timerRequisicao.IsEnabled = false;
                 AlterarStatusRobo(StatusRoboEnum.Desconhecido);
+                LimparVisualizacao(StatusRoboEnum.Desconhecido);
             }
         }
         //faz as requisiçoes para verificar se há alguma reaçao para ser mostrada.
@@ -128,9 +129,11 @@ namespace ReacaoRobo.ViewModels
                 case 0:
                     AdicionarNovaLinha("Requisiçao falhou.");
                     AlterarStatusRobo(StatusRoboEnum.Desconectado);
+                    LimparVisualizacao(StatusRoboEnum.Desconectado);
                     break;
                 default:
                     AlterarStatusRobo(StatusRoboEnum.Desconhecido);
+                    LimparVisualizacao(StatusRoboEnum.Desconhecido);
                     break;
             }
         }
@@ -162,13 +165,14 @@ namespace ReacaoRobo.ViewModels
                                 Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + imagem)),
                                 Stretch = Stretch.Uniform
                             }
-                        }                    );
+                        });
                     reacaoAnterior = sortedItem;
                 }
                 catch
                 {
                     AdicionarNovaLinha("Nao foi possivel achar a imagem.");
                     AdicionarNovaLinha("Programador de burro!");
+                    LimparVisualizacao(StatusRoboEnum.Desconectado);
                 }
             }
         }
@@ -199,6 +203,28 @@ namespace ReacaoRobo.ViewModels
             }
 
             StatusRobo = border;
+        }
+        //Alterando visualizaçao ao ocorrer um erro na requisiçao
+        //ou, o usuario desativar as requisiçoes.
+        private void LimparVisualizacao(StatusRoboEnum roboEnum)
+        {
+            tela.GridImagens_gd.Children.Clear();
+            _ = tela.GridImagens_gd.Children.Add(
+                new Card
+                {
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                    Content = new TextBlock { FontSize = 20, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Center }
+                }
+            );
+            switch (roboEnum)
+            {
+                case StatusRoboEnum.Desconectado:
+                    ((tela.GridImagens_gd.Children[0] as Card).Content as TextBlock).Text = "Sem Sinal!";
+                    break;
+                case StatusRoboEnum.Desconhecido:
+                    ((tela.GridImagens_gd.Children[0] as Card).Content as TextBlock).Text = "Olá mundo!";
+                    break;
+            }
         }
     }
 }
