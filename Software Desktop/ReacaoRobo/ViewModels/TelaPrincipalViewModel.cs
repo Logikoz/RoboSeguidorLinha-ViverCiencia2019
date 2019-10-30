@@ -25,8 +25,8 @@ namespace ReacaoRobo.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         //campos
         private Border _statusRobo;
-        private string _servidorURI = "http://192.168.0.0";
-        private string _tempoRequisicao = "300";
+        private string _servidorURI = "http://192.168.43.91"; //IP padrao
+        private string _tempoRequisicao = "1000"; //tempo padrao.
         private string _textoDescricao;
 
         private DispatcherTimer timerRequisicao;
@@ -111,29 +111,27 @@ namespace ReacaoRobo.ViewModels
         {
             IRestResponse response = await ReacaoRoboService.VerificarReacaoAsync(ServidorURI, TempoRequisisaoToInt());
 
-            if (response.IsSuccessful)
+            switch (response.StatusCode)
             {
-                switch (response.StatusCode)
-                {
-                    case HttpStatusCode.OK:
-                        ReacaoModel reacao = new JsonDeserializer().Deserialize<ReacaoModel>(response);
-                        AdicionarNovaLinha(response.StatusCode.ToString());
-                        AdicionarNovaLinha(reacao.CardID);
+                case HttpStatusCode.OK:
+                    ReacaoModel reacao = new JsonDeserializer().Deserialize<ReacaoModel>(response);
+                    AdicionarNovaLinha(response.StatusCode.ToString());
+                    //AdicionarNovaLinha(reacao.CardID);
 
-                        VisualizarReacao(reacao);
+                    VisualizarReacao(reacao);
 
-                        AlterarStatusRobo(StatusRoboEnum.Conectado);
-                        break;
-                    case 0:
-                        AdicionarNovaLinha("Requisiçao falhou.");
-                        AlterarStatusRobo(StatusRoboEnum.Desconectado);
-                        break;
-                    default:
-                        AlterarStatusRobo(StatusRoboEnum.Desconhecido);
-                        break;
-                }
+                    AlterarStatusRobo(StatusRoboEnum.Conectado);
+                    break;
+                case 0:
+                    AdicionarNovaLinha("Requisiçao falhou.");
+                    AlterarStatusRobo(StatusRoboEnum.Desconectado);
+                    break;
+                default:
+                    AlterarStatusRobo(StatusRoboEnum.Desconhecido);
+                    break;
             }
         }
+
         private async void LerLocalJson()
         {
             using StreamReader ler = File.OpenText("./reacoes.json");
@@ -143,18 +141,26 @@ namespace ReacaoRobo.ViewModels
         {
             if (reacaoAnterior is null || reacao.CardID != reacaoAnterior.CardID)
             {
-                ReacaoModel reacaoModel = imagens.First(i => i.CardID == reacao.CardID);
-                TextoDescricao = reacaoModel.Descricao;
-                string imagem = reacaoModel.Caminho;
-                tela.GridImagens_gd.Children.Clear();
-                tela.GridImagens_gd.Children.Add(new Card { Content = new Image { Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + imagem)) } });
-                reacaoAnterior = reacaoModel;
+                try
+                {
+                    ReacaoModel reacaoModel = imagens.First(i => i.CardID == reacao.CardID);
+                    TextoDescricao = reacaoModel.Descricao;
+                    string imagem = reacaoModel.Caminho;
+                    tela.GridImagens_gd.Children.Clear();
+                    tela.GridImagens_gd.Children.Add(new Card { Content = new Image { Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + imagem)) , Stretch = Stretch.UniformToFill} });
+                    reacaoAnterior = reacaoModel;
+                }
+                catch
+                {
+                    AdicionarNovaLinha("Nao foi possivel achar a imagem.");
+                    AdicionarNovaLinha("Programador de burro!");
+                }
             }
         }
 
         private int TempoRequisisaoToInt()
         {
-            _ = int.TryParse(_tempoRequisicao, out int result);
+            _ = int.TryParse(TempoRequisicao, out int result);
             return result;
         }
 
