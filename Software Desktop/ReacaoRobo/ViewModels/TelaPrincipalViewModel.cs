@@ -33,6 +33,7 @@ namespace ReacaoRobo.ViewModels
         private readonly TelaPrincipalView tela;
         private List<ReacaoModel> imagens;
         private ReacaoModel reacaoAnterior;
+
         //propriedades
         public Border StatusRobo
         {
@@ -88,7 +89,8 @@ namespace ReacaoRobo.ViewModels
         public void ChangeValue(string property) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         private void IniciarTimer()
         {
-            timerRequisicao = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 0, 300) };
+            _ = int.TryParse(TempoRequisicao, out int result);
+            timerRequisicao = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 0, result) };
             timerRequisicao.Tick += TimerRequisicao_Tick;
         }
         private void TimerRequisicao_Tick(object sender, EventArgs e) => FazendoRequisicoesAsync();
@@ -131,7 +133,6 @@ namespace ReacaoRobo.ViewModels
                     break;
             }
         }
-
         private async void LerLocalJson()
         {
             using StreamReader ler = File.OpenText("./reacoes.json");
@@ -147,7 +148,7 @@ namespace ReacaoRobo.ViewModels
                     TextoDescricao = reacaoModel.Descricao;
                     string imagem = reacaoModel.Caminho;
                     tela.GridImagens_gd.Children.Clear();
-                    tela.GridImagens_gd.Children.Add(new Card { Content = new Image { Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + imagem)) , Stretch = Stretch.UniformToFill} });
+                    tela.GridImagens_gd.Children.Add(new Card { Content = new Image { Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + imagem)), Stretch = Stretch.UniformToFill } });
                     reacaoAnterior = reacaoModel;
                 }
                 catch
@@ -157,13 +158,11 @@ namespace ReacaoRobo.ViewModels
                 }
             }
         }
-
         private int TempoRequisisaoToInt()
         {
             _ = int.TryParse(TempoRequisicao, out int result);
             return result;
         }
-
         private void AdicionarNovaLinha(string valor)
         {
             tela.CaixaRespostaRequisicao_rtb.AppendText($"{DateTime.Now.ToString("HH:mm")}: {valor}\n");
