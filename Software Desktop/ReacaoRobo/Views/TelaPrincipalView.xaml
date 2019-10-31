@@ -172,20 +172,38 @@
                 </GroupBox>
             </Grid>
         </Grid>
-        <GroupBox
+        <materialDesign:Card
             Grid.Row="2"
             Margin="10"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            materialDesign:ShadowAssist.ShadowDepth="Depth3"
-            Style="{StaticResource MaterialDesignGroupBox}">
-            <TextBlock
-                Margin="10"
-                Foreground="{DynamicResource MaterialDesignBody}"
-                Style="{StaticResource MaterialDesignSubheadingTextBlock}"
-                Text="{Binding TextoDescricao}"
-                TextWrapping="Wrap" />
-        </GroupBox>
+            VerticalAlignment="Stretch">
+            <Border
+                materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                BorderBrush="{StaticResource PrimaryHueMidBrush}"
+                BorderThickness="1">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Margin="5" Orientation="Horizontal">
+                        <TextBlock
+                            Foreground="{StaticResource PrimaryHueMidBrush}"
+                            Style="{StaticResource MaterialDesignTitleTextBlock}"
+                            Text="Descriçao" />
+                        <TextBlock Style="{StaticResource MaterialDesignTitleTextBlock}">
+                            <Run Text=" - " />
+                            <Run Text="Reaçao: " />
+                            <Run Foreground="{StaticResource PrimaryHueLightBrush}" Text="{Binding TipoReacao, Mode=TwoWay}" />
+                        </TextBlock>
+
+                    </StackPanel>
+                    <TextBlock
+                        Margin="10"
+                        Foreground="{DynamicResource MaterialDesignBody}"
+                        Style="{StaticResource MaterialDesignSubheadingTextBlock}"
+                        Text="{Binding TextoDescricao}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+
+        </materialDesign:Card>
         <materialDesign:Snackbar
             x:Name="BarraNotificacao_sb"
             Grid.Row="2"

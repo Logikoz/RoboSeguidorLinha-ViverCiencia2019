@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using MaterialDesignThemes.Wpf;
+using Newtonsoft.Json;
 using ReacaoRobo.Models;
 using ReacaoRobo.Services;
 using ReacaoRobo.Views;
@@ -28,12 +29,14 @@ namespace ReacaoRobo.ViewModels
         private string _servidorURI = "http://192.168.43.91"; //IP padrao
         private string _tempoRequisicao = "1000"; //tempo padrao.
         private string _textoDescricao;
+        private string _tipoReacao;
 
         private DispatcherTimer timerRequisicao;
         private readonly TelaPrincipalView tela;
         private List<ReacaoModel> imagens;
         private ReacaoModel reacaoAnterior;
         private ToggleButton desligarToggleButton;
+        private byte qtdRequisicoesFail = 0;
 
         //propriedades
         public Border StatusRobo
@@ -73,6 +76,15 @@ namespace ReacaoRobo.ViewModels
             {
                 _textoDescricao = value;
                 ChangeValue("TextoDescricao");
+            }
+        }
+        public string TipoReacao
+        {
+            get => _tipoReacao;
+            set
+            {
+                _tipoReacao = value;
+                ChangeValue("TipoReacao");
             }
         }
 
@@ -135,11 +147,17 @@ namespace ReacaoRobo.ViewModels
                     AdicionarNovaLinha(response.StatusCode.ToString());
                     VisualizarReacao(reacao);
                     AlterarStatusRobo(StatusRoboEnum.Conectado);
+                    qtdRequisicoesFail = 0;
                     break;
                 case 0:
                     AdicionarNovaLinha("Requisiçao falhou.");
-                    AlterarStatusRobo(StatusRoboEnum.Desconectado);
-                    LimparVisualizacao(StatusRoboEnum.Desconectado);
+                    if(qtdRequisicoesFail == 5)
+                    {
+                        AlterarStatusRobo(StatusRoboEnum.Desconectado);
+                        LimparVisualizacao(StatusRoboEnum.Desconectado);
+                        qtdRequisicoesFail = 0;
+                    }
+                    qtdRequisicoesFail++;
                     break;
                 default:
                     AlterarStatusRobo(StatusRoboEnum.Desconhecido);
@@ -147,12 +165,11 @@ namespace ReacaoRobo.ViewModels
                     break;
             }
         }
-
         //Ler o arquivo json que está na ./ do app.
         private async void LerLocalJson()
         {
             using StreamReader ler = File.OpenText("./reacoes.json");
-            imagens = SimpleJson.DeserializeObject<List<ReacaoModel>>(await ler.ReadToEndAsync());
+            imagens = JsonConvert.DeserializeObject<List<ReacaoModel>>(await ler.ReadToEndAsync());
         }
         //adiciona uma nova reaçao na tela
         private void VisualizarReacao(ReacaoModel reacao)
@@ -166,6 +183,7 @@ namespace ReacaoRobo.ViewModels
                     //sortiando um item da lista.
                     ReacaoModel sortedItem = filterItens[new Random().Next(0, filterItens.Count)];
                     TextoDescricao = sortedItem.Descricao;
+                    TipoReacao = sortedItem.Categoria.ToString();
                     string imagem = sortedItem.Caminho;
                     tela.GridImagens_gd.Children.Clear();
                     _ = tela.GridImagens_gd.Children.Add(
@@ -174,7 +192,7 @@ namespace ReacaoRobo.ViewModels
                             Content = new Image
                             {
                                 Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + imagem)),
-                                Stretch = Stretch.Uniform
+                                Stretch = Stretch.Fill
                             }
                         });
                     reacaoAnterior = sortedItem;
@@ -232,9 +250,11 @@ namespace ReacaoRobo.ViewModels
             {
                 case StatusRoboEnum.Desconectado:
                     ((tela.GridImagens_gd.Children[0] as Card).Content as TextBlock).Text = "Sem Sinal!";
+                    reacaoAnterior = null;
                     break;
                 case StatusRoboEnum.Desconhecido:
                     ((tela.GridImagens_gd.Children[0] as Card).Content as TextBlock).Text = "Olá mundo!";
+                    reacaoAnterior = null;
                     break;
             }
         }
