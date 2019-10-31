@@ -21,7 +21,7 @@ using System.Windows.Threading;
 
 namespace ReacaoRobo.ViewModels
 {
-    class TelaPrincipalViewModel : INotifyPropertyChanged
+    internal class TelaPrincipalViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         //campos
@@ -29,7 +29,7 @@ namespace ReacaoRobo.ViewModels
         private string _servidorURI = "http://192.168.43.91"; //IP padrao
         private string _tempoRequisicao = "1000"; //tempo padrao.
         private string _textoDescricao;
-        private string _tipoReacao;
+        private string _tipoReacao = "Indisponível";
 
         private DispatcherTimer timerRequisicao;
         private readonly TelaPrincipalView tela;
@@ -145,6 +145,12 @@ namespace ReacaoRobo.ViewModels
                 case HttpStatusCode.OK:
                     ReacaoModel reacao = new JsonDeserializer().Deserialize<ReacaoModel>(response);
                     AdicionarNovaLinha(response.StatusCode.ToString());
+                    //caso o cartao seja o de saida, ele encerra as requisiçoes.
+                    if(reacao.CardID == "8bcbafd")
+                    {
+                        DesativarRequisicoes();
+                        return;
+                    }
                     VisualizarReacao(reacao);
                     AlterarStatusRobo(StatusRoboEnum.Conectado);
                     qtdRequisicoesFail = 0;
@@ -164,6 +170,13 @@ namespace ReacaoRobo.ViewModels
                     LimparVisualizacao(StatusRoboEnum.Desconhecido);
                     break;
             }
+        }
+        private void DesativarRequisicoes()
+        {
+            desligarToggleButton.IsChecked = false;
+            HandleChecked(desligarToggleButton);
+            TipoReacao = "Indisponível";
+            TextoDescricao = string.Empty;
         }
         //Ler o arquivo json que está na ./ do app.
         private async void LerLocalJson()
@@ -199,7 +212,7 @@ namespace ReacaoRobo.ViewModels
                 }
                 catch
                 {
-                    AdicionarNovaLinha("Nao foi possivel achar a imagem.");
+                    AdicionarNovaLinha("Não foi possível achar a imagem.");
                     AdicionarNovaLinha("Programador de burro!");
                     LimparVisualizacao(StatusRoboEnum.Desconectado);
                 }
@@ -253,7 +266,7 @@ namespace ReacaoRobo.ViewModels
                     reacaoAnterior = null;
                     break;
                 case StatusRoboEnum.Desconhecido:
-                    ((tela.GridImagens_gd.Children[0] as Card).Content as TextBlock).Text = "Olá mundo!";
+                    ((tela.GridImagens_gd.Children[0] as Card).Content as TextBlock).Text = "Viver Ciência 2019";
                     reacaoAnterior = null;
                     break;
             }

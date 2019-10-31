@@ -31,22 +31,41 @@
             materialDesign:ShadowAssist.ShadowEdges="Bottom"
             Background="{StaticResource PrimaryHueMidBrush}">
             <Grid Margin="5">
-                <StackPanel
-                    Margin="30,0,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Orientation="Vertical">
-                    <TextBlock
-                        FontWeight="Bold"
-                        Foreground="White"
-                        Style="{StaticResource MaterialDesignHeadlineTextBlock}"
-                        Text="Viver Ciencia" />
-                    <TextBlock
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel
+                        Margin="30,0,0,0"
                         HorizontalAlignment="Left"
-                        FontWeight="DemiBold"
-                        Foreground="White"
-                        Style="{StaticResource MaterialDesignTitleTextBlock}"
-                        Text="2019" />
+                        VerticalAlignment="Center"
+                        Orientation="Vertical">
+                        <TextBlock
+                            FontWeight="Bold"
+                            Foreground="White"
+                            Style="{StaticResource MaterialDesignHeadlineTextBlock}"
+                            Text="Viver Ciência" />
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            FontWeight="DemiBold"
+                            Foreground="White"
+                            Style="{StaticResource MaterialDesignTitleTextBlock}"
+                            Text="2019" />
+                    </StackPanel>
+                    <Image
+                        x:Name="Teste"
+                        Margin="20,3,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Source="/Recursos/QRCode.png">
+                        <Image.ToolTip>
+                            <Grid>
+                                <Image
+                                    Width="300"
+                                    Height="300"
+                                    Margin="10"
+                                    Source="/Recursos/QRCode.png" />
+
+                            </Grid>
+                        </Image.ToolTip>
+                    </Image>
                 </StackPanel>
                 <StackPanel
                     Margin="0,0,30,0"
@@ -66,7 +85,7 @@
                 </StackPanel>
             </Grid>
         </materialDesign:Card>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Margin="0,10,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition MaxWidth="250" />
                 <ColumnDefinition Width="*" />
@@ -74,7 +93,7 @@
             </Grid.ColumnDefinitions>
             <Image
                 Grid.Column="0"
-                MaxWidth="150"
+                MaxHeight="250"
                 Margin="10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -99,7 +118,7 @@
                                 <TextBlock
                                     VerticalAlignment="Center"
                                     Foreground="{DynamicResource MaterialDesignBody}"
-                                    Text="Status do Robo: " />
+                                    Text="Status do Robô: " />
                                 <Label Content="{Binding StatusRobo, Mode=TwoWay}" />
                             </StackPanel>
                         </StackPanel>
@@ -110,7 +129,7 @@
                             <materialDesign:PopupBox.ToggleContent>
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Foreground="{StaticResource PrimaryHueMidBrush}" Kind="Settings" />
-                                    <TextBlock Foreground="{StaticResource PrimaryHueMidBrush}" Text="Configuraçoes" />
+                                    <TextBlock Foreground="{StaticResource PrimaryHueMidBrush}" Text="Configurações" />
                                 </StackPanel>
                             </materialDesign:PopupBox.ToggleContent>
                             <StackPanel Margin="10" Orientation="Vertical">
@@ -148,7 +167,7 @@
                             VerticalAlignment="Center"
                             FontSize="20"
                             Foreground="{DynamicResource MaterialDesignBody}"
-                            Text="Olá mundo." />
+                            Text="Viver Ciencia 2019" />
                     </materialDesign:Card>
                 </Grid>
             </Grid>
@@ -159,7 +178,7 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Foreground="White"
-                            Text="Requisiçoes" />
+                            Text="Requisições" />
                     </GroupBox.Header>
                     <RichTextBox
                         x:Name="CaixaRespostaRequisicao_rtb"
@@ -186,10 +205,10 @@
                         <TextBlock
                             Foreground="{StaticResource PrimaryHueMidBrush}"
                             Style="{StaticResource MaterialDesignTitleTextBlock}"
-                            Text="Descriçao" />
+                            Text="Descrição" />
                         <TextBlock Style="{StaticResource MaterialDesignTitleTextBlock}">
                             <Run Text=" - " />
-                            <Run Text="Reaçao: " />
+                            <Run Text="Reação: " />
                             <Run Foreground="{StaticResource PrimaryHueLightBrush}" Text="{Binding TipoReacao, Mode=TwoWay}" />
                         </TextBlock>
 
