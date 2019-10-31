@@ -1,18 +1,23 @@
-# RoboSeguidorLinha-ViverCiencia2019
-Robo para mostrar reaçoes a cada obstaculo.
-Robo seguidor de ordens, os comandos sao feitos na programaçao do arduino e ele vai fazer o que lhe foi mandado.
+#Robo seguidor de linha Viver Ciencias 2019
 
-O projeto foi feito para mostrar como a tecnologia pode ser benefica para as escolas e como isso pode ajudar os alunos.
+Participantes:
 
-Os alunos Selemias, Gustavo, Sarah, Dalton, Eduardo e Ycharo do Colégio Militar Tiradentes fizeram o projeto com a suprevisao da Professora Lídia Rocha e Ruan Carlos.
+Alunos: Sarah Ludmyla, Eduardo Roberto, Selemias, Gustavo, Dalton e Ycharo
 
-O Robo arduino irá receber informaçoes dos leitores de cartao e irá fazer o que lhe foi programado.
+Orientadores: Lídia Rocha e Ruan Carlos
 
-O Robo arduino está aqui para mostrar também como a depressao está aumentando no mundo e iremos explicar isso hoje.
+Projeto Robo seguidor de linha
 
-Cada aluno ficou emcubido de falar de uma parte do projeto e de montar cada parte específica do Robo, Selemias e Gustavo ficaram com a montagem do Robo, Dalton e Eduardo ficaram com a programaçao de imagens e Sarah e Ycharo ficaram com a montagem da pista.
+Este projeto tem o intuito de mostrar como as tecnologias podem ser beneficas para os alunos de escola pública trazendo conhecimento mais eficaz e rápido, outra vertente do projeto seria mostrar como a depressao tem crescido com o decorrer do tempo em todos os países e por último trazer a tecnologia do arduíno, o que é, o que pode fazer e muito mais.
 
-#fotodocarrinhopronto
+O arduíno é controlado através de uma linguagem chamada C++, o arduíno terá uma extrema importancia em nosso projeto pois usaremos o arduíno UNO R3 (existem vários tipos de arduínos) que irá se comunicar com o comunicador ESP e com o arduíno MEGA através da linguagem C++ também
+
+Estamos trabalhando com um Robo que tem dois arduínos e com sensores infravermelhos (um emite e o outro recebe) e sensor RFTP
+
+Os alunos Selemias e Gustavo ficaram responsáveis por montarem o Robo.
+Os alunos Eduardo Roberto e Dalton ficaram com a programaçao de imagens.
+Os alunos Ycharo e Sarah ficaram com a montagem da pista.
+
+#fotodoroboterminado
 
 #fotodamontagemdapista
-
