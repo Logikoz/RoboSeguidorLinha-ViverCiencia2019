@@ -61,12 +61,12 @@ namespace ReacaoRobo.Properties {
         }
         
         /// <summary>
-        ///   Consulta um recurso localizado do tipo System.Byte[].
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static byte[] reacoes {
+        internal static System.Drawing.Bitmap _Aprensentaçao {
             get {
-                object obj = ResourceManager.GetObject("reacoes", resourceCulture);
-                return ((byte[])(obj));
+                object obj = ResourceManager.GetObject("_Aprensentaçao", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

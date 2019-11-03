@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -146,7 +147,7 @@ namespace ReacaoRobo.ViewModels
                     ReacaoModel reacao = new JsonDeserializer().Deserialize<ReacaoModel>(response);
                     AdicionarNovaLinha(response.StatusCode.ToString());
                     //caso o cartao seja o de saida, ele encerra as requisiçoes.
-                    if(reacao.CardID == "8bcbafd")
+                    if (reacao.CardID == "ID_Cartao_Parada")
                     {
                         DesativarRequisicoes();
                         return;
@@ -157,7 +158,7 @@ namespace ReacaoRobo.ViewModels
                     break;
                 case 0:
                     AdicionarNovaLinha("Requisiçao falhou.");
-                    if(qtdRequisicoesFail == 5)
+                    if (qtdRequisicoesFail == 5)
                     {
                         AlterarStatusRobo(StatusRoboEnum.Desconectado);
                         LimparVisualizacao(StatusRoboEnum.Desconectado);
@@ -181,8 +182,9 @@ namespace ReacaoRobo.ViewModels
         //Ler o arquivo json que está na ./ do app.
         private async void LerLocalJson()
         {
-            using StreamReader ler = File.OpenText("./reacoes.json");
+            using StreamReader ler = File.OpenText("../Recursos/reacoes.json");
             imagens = JsonConvert.DeserializeObject<List<ReacaoModel>>(await ler.ReadToEndAsync());
+            
         }
         //adiciona uma nova reaçao na tela
         private void VisualizarReacao(ReacaoModel reacao)
@@ -197,14 +199,14 @@ namespace ReacaoRobo.ViewModels
                     ReacaoModel sortedItem = filterItens[new Random().Next(0, filterItens.Count)];
                     TextoDescricao = sortedItem.Descricao;
                     TipoReacao = sortedItem.Categoria.ToString();
-                    string imagem = sortedItem.Caminho;
                     tela.GridImagens_gd.Children.Clear();
                     _ = tela.GridImagens_gd.Children.Add(
                         new Card
                         {
                             Content = new Image
                             {
-                                Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + imagem)),
+                                //nao testado
+                                Source = new BitmapImage(new Uri($"pack://application:,,,/Recursos/{sortedItem.Categoria}/{sortedItem.Caminho}")),
                                 Stretch = Stretch.Fill
                             }
                         });
