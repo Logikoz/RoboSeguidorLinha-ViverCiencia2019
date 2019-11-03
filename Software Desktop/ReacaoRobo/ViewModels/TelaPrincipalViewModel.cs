@@ -189,6 +189,8 @@ namespace ReacaoRobo.ViewModels
         //adiciona uma nova reaçao na tela
         private void VisualizarReacao(ReacaoModel reacao)
         {
+            //verificando se a reaçao anterior é nula ou se o ID da reacao recebida é diferente do ID da reacao anterior.
+            //para evitar com que adicione a mesma reaçao seguida.
             if (reacaoAnterior is null || reacao.CardID != reacaoAnterior.CardID)
             {
                 try
@@ -199,6 +201,7 @@ namespace ReacaoRobo.ViewModels
                     ReacaoModel sortedItem = filterItens[new Random().Next(0, filterItens.Count)];
                     TextoDescricao = sortedItem.Descricao;
                     TipoReacao = sortedItem.Categoria.ToString();
+                    //limpando grid de visualizaçao, e adicionando uma nova imagem.
                     tela.GridImagens_gd.Children.Clear();
                     _ = tela.GridImagens_gd.Children.Add(
                         new Card
@@ -272,6 +275,9 @@ namespace ReacaoRobo.ViewModels
                     reacaoAnterior = null;
                     break;
             }
+            //removendo tipo da reacao e descriçao
+            TextoDescricao = string.Empty;
+            TipoReacao = "Indisponível";
         }
         private bool VerificarValidadeURI()
         {
