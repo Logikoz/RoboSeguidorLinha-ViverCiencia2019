@@ -12,16 +12,19 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using reacoes = ReacaoRobo.Models.CategoriaReacoesEnum;
 
 namespace ReacaoRobo.ViewModels
 {
+    /// <summary>
+    /// Reponsável pelo binding do Model e View.
+    /// </summary>
     internal class TelaPrincipalViewModel : INotifyPropertyChanged
     {
         //eventos
@@ -42,6 +45,9 @@ namespace ReacaoRobo.ViewModels
         private string _tipoReacao = "Indisponível";
 
         //propriedades
+        /// <summary>
+        /// Define o valor que mostrará o Status do Robo na view (<see cref="StatusRoboEnum.Conectado"/>, <see cref="StatusRoboEnum.Desconectado"/>, <see cref="StatusRoboEnum.Desconhecido"/>).
+        /// </summary>
         public Border StatusRobo
         {
             get => _statusRobo;
@@ -51,6 +57,9 @@ namespace ReacaoRobo.ViewModels
                 AlterarValor("StatusRobo");
             }
         }
+        /// <summary>
+        /// Define a URI do site que será feita as requisiçoes.
+        /// </summary>
         public string ServidorURI
         {
             get => _servidorURI;
@@ -60,6 +69,9 @@ namespace ReacaoRobo.ViewModels
                 AlterarValor("ServidorURI");
             }
         }
+        /// <summary>
+        /// Define o tempo em (ms) que será feito as requisiçoes.
+        /// </summary>
         public string TempoRequisicao
         {
             get => _tempoRequisicao;
@@ -71,7 +83,13 @@ namespace ReacaoRobo.ViewModels
                 AlterarValor("TempoRequisicao");
             }
         }
+        /// <summary>
+        /// Comando para definir o <see cref="StatusRobo"/>.
+        /// </summary>
         public RelayCommand<ToggleButton> StatusRequisicao { get; private set; }
+        /// <summary>
+        /// Define o texto que contém na descriçao da reaçao.
+        /// </summary>
         public string TextoDescricao
         {
             get => _textoDescricao;
@@ -81,6 +99,9 @@ namespace ReacaoRobo.ViewModels
                 AlterarValor("TextoDescricao");
             }
         }
+        /// <summary>
+        /// Define o texto do tipo da reaçao (<see cref="reacoes.Ansiedade "/>, <see cref="reacoes.Felicidade"/>, <see cref="reacoes.Prazer"/>, <see cref="reacoes.Raiva"/>, <see cref="reacoes.Tristeza"/>).
+        /// </summary>
         public string TipoReacao
         {
             get => _tipoReacao;
