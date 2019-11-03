@@ -156,7 +156,7 @@ namespace ReacaoRobo.ViewModels
             if (!VerificarValidadeURI())
                 return;
             //fazendo requisiçao
-            IRestResponse response = await ReacaoRoboService.VerificarReacaoAsync(ServidorURI, TempoRequisisaoToInt());
+            IRestResponse response = await ReacaoRoboService.VerificarReacaoAsync(new Uri(ServidorURI), TempoRequisisaoToInt());
             //corrigindo bug
             //desmarca o toggleButton caso ainda tenha uma requisiçao em andamento.
             if (!desligarToggleButton.IsChecked.Value)
