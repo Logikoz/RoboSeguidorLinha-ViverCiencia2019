@@ -24,20 +24,22 @@ namespace ReacaoRobo.ViewModels
 {
     internal class TelaPrincipalViewModel : INotifyPropertyChanged
     {
+        //eventos
         public event PropertyChangedEventHandler PropertyChanged;
-        //campos
-        private Border _statusRobo;
-        private string _servidorURI = "http://192.168.43.91"; //IP padrao
-        private string _tempoRequisicao = "1000"; //tempo padrao.
-        private string _textoDescricao;
-        private string _tipoReacao = "Indisponível";
 
+        //campos
         private DispatcherTimer timerRequisicao;
         private readonly TelaPrincipalView tela;
         private List<ReacaoModel> imagens;
         private ReacaoModel reacaoAnterior;
         private ToggleButton desligarToggleButton;
         private byte qtdRequisicoesFail = 0;
+
+        private Border _statusRobo;
+        private string _servidorURI = "http://192.168.43.91"; //IP padrao
+        private string _tempoRequisicao = "1000"; //tempo padrao.
+        private string _textoDescricao;
+        private string _tipoReacao = "Indisponível";
 
         //propriedades
         public Border StatusRobo
@@ -184,7 +186,7 @@ namespace ReacaoRobo.ViewModels
         {
             using StreamReader ler = File.OpenText("./Recursos/reacoes.json");
             imagens = JsonConvert.DeserializeObject<List<ReacaoModel>>(await ler.ReadToEndAsync());
-            
+
         }
         //adiciona uma nova reaçao na tela
         private void VisualizarReacao(ReacaoModel reacao)
@@ -196,33 +198,40 @@ namespace ReacaoRobo.ViewModels
                 try
                 {
                     //criando lista com os ID iguais ao da requisiçao.
-                    List<ReacaoModel> filterItens = imagens.Where(a => a.CardID == reacao.CardID).ToList();
-                    //sortiando um item da lista.
-                    ReacaoModel sortedItem = filterItens[new Random().Next(0, filterItens.Count)];
-                    TextoDescricao = sortedItem.Descricao;
-                    TipoReacao = sortedItem.Categoria.ToString();
+                    var filterItens = imagens.Where(a => a.CardID == reacao.CardID).ToList();
+                    //sorteando um item da lista.
+                    ReacaoModel imagemSorteada = filterItens[new Random().Next(0, filterItens.Count)];
+                    TextoDescricao = imagemSorteada.Descricao;
+                    TipoReacao = imagemSorteada.Categoria.ToString();
                     //limpando grid de visualizaçao, e adicionando uma nova imagem.
                     tela.GridImagens_gd.Children.Clear();
-                    _ = tela.GridImagens_gd.Children.Add(
-                        new Card
-                        {
-                            Content = new Image
-                            {
-                                //nao testado
-                                Source = new BitmapImage(new Uri($"./Recursos/{sortedItem.Categoria}/{sortedItem.Caminho}")),
-                                Stretch = Stretch.Fill
-                            }
-                        });
-                    reacaoAnterior = sortedItem;
+                    AdicinandoReacao(imagemSorteada);
+                    //atribuindo a reacao atual para o campo para evitar que a proxima requisiçao seja a mesma.
+                    reacaoAnterior = imagemSorteada;
                 }
                 catch
                 {
                     AdicionarNovaLinha("Não foi possível achar a imagem.");
-                    AdicionarNovaLinha("Programador de burro!");
+                    AdicionarNovaLinha("Programador burro!");
                     LimparVisualizacao(StatusRoboEnum.Desconectado);
                 }
             }
         }
+
+        private void AdicinandoReacao(ReacaoModel imagemSorteada)
+        {
+            _ = tela.GridImagens_gd.Children.Add(
+                new Card
+                {
+                    Content = new Image
+                    {
+                        //nao testado
+                        Source = new BitmapImage(new Uri($"./Recursos/{imagemSorteada.Categoria}/{imagemSorteada.Caminho}")),
+                        Stretch = Stretch.Fill
+                    }
+                });
+        }
+
         //converte o tempo da requisiçao para inteiro.
         private int TempoRequisisaoToInt()
         {
@@ -266,6 +275,8 @@ namespace ReacaoRobo.ViewModels
             );
             switch (roboEnum)
             {
+                case StatusRoboEnum.Conectado:
+                    break;
                 case StatusRoboEnum.Desconectado:
                     ((tela.GridImagens_gd.Children[0] as Card).Content as TextBlock).Text = "Sem Sinal!";
                     reacaoAnterior = null;
