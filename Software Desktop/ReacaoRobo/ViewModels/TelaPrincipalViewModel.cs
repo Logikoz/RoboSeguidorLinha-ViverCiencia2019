@@ -45,7 +45,7 @@ namespace ReacaoRobo.ViewModels
             set
             {
                 _statusRobo = value;
-                ChangeValue("StatusRobo");
+                AlterarValor("StatusRobo");
             }
         }
         public string ServidorURI
@@ -54,7 +54,7 @@ namespace ReacaoRobo.ViewModels
             set
             {
                 _servidorURI = value;
-                ChangeValue("ServidorURI");
+                AlterarValor("ServidorURI");
             }
         }
         public string TempoRequisicao
@@ -65,7 +65,7 @@ namespace ReacaoRobo.ViewModels
                 _tempoRequisicao = value;
                 _ = int.TryParse(value, out int result);
                 timerRequisicao.Interval = new TimeSpan(0, 0, 0, 0, result);
-                ChangeValue("TempoRequisicao");
+                AlterarValor("TempoRequisicao");
             }
         }
         public RelayCommand<ToggleButton> StatusRequisicao { get; private set; }
@@ -75,7 +75,7 @@ namespace ReacaoRobo.ViewModels
             set
             {
                 _textoDescricao = value;
-                ChangeValue("TextoDescricao");
+                AlterarValor("TextoDescricao");
             }
         }
         public string TipoReacao
@@ -84,7 +84,7 @@ namespace ReacaoRobo.ViewModels
             set
             {
                 _tipoReacao = value;
-                ChangeValue("TipoReacao");
+                AlterarValor("TipoReacao");
             }
         }
 
@@ -99,7 +99,7 @@ namespace ReacaoRobo.ViewModels
         }
 
         //metodos
-        public void ChangeValue(string property) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        public void AlterarValor(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         private void IniciarTimer()
         {
             _ = int.TryParse(TempoRequisicao, out int result);
