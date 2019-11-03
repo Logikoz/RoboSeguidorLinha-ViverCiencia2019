@@ -182,7 +182,7 @@ namespace ReacaoRobo.ViewModels
         //Ler o arquivo json que está na ./ do app.
         private async void LerLocalJson()
         {
-            using StreamReader ler = File.OpenText("../Recursos/reacoes.json");
+            using StreamReader ler = File.OpenText("./Recursos/reacoes.json");
             imagens = JsonConvert.DeserializeObject<List<ReacaoModel>>(await ler.ReadToEndAsync());
             
         }
@@ -206,7 +206,7 @@ namespace ReacaoRobo.ViewModels
                             Content = new Image
                             {
                                 //nao testado
-                                Source = new BitmapImage(new Uri($"pack://application:,,,/Recursos/{sortedItem.Categoria}/{sortedItem.Caminho}")),
+                                Source = new BitmapImage(new Uri($"./Recursos/{sortedItem.Categoria}/{sortedItem.Caminho}")),
                                 Stretch = Stretch.Fill
                             }
                         });

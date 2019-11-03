@@ -121,7 +121,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Recursos\reacoes.json" />
+    <None Include="Recursos\reacoes.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -139,24 +141,51 @@
     <Resource Include="Recursos\QRCode.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Recursos\Ansiedade\espelho.jpg" />
-    <Resource Include="Recursos\Ansiedade\esporte.jpg" />
-    <Resource Include="Recursos\Ansiedade\organize.jpg" />
-    <Resource Include="Recursos\Felicidade\frenchdog.jpg" />
-    <Resource Include="Recursos\Felicidade\painterdog.jpg" />
-    <Resource Include="Recursos\Felicidade\spacecat.jpg" />
-    <Resource Include="Recursos\Prazer\amigos.jpg" />
-    <Resource Include="Recursos\Prazer\comida.jpg" />
-    <Resource Include="Recursos\Prazer\musica.jpg" />
-    <Resource Include="Recursos\Raiva\aperto.jpg" />
-    <Resource Include="Recursos\Raiva\cachorrodormindo.jpg" />
-    <Resource Include="Recursos\Raiva\trabalho.jpg" />
-    <Resource Include="Recursos\Tristeza\alimentacao.jpg" />
-    <Resource Include="Recursos\Tristeza\cachorrotriste.jpg" />
-    <Resource Include="Recursos\Tristeza\triste.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\_Aprensentaçao.png" />
+    <Resource Include="Recursos\Ansiedade\espelho.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Recursos\Ansiedade\esporte.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Recursos\Ansiedade\organize.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Recursos\Felicidade\frenchdog.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Recursos\Felicidade\painterdog.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Recursos\Felicidade\spacecat.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Recursos\Prazer\amigos.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Recursos\Prazer\comida.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Recursos\Prazer\musica.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Recursos\Raiva\aperto.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Recursos\Raiva\cachorrodormindo.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Recursos\Raiva\trabalho.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Recursos\Tristeza\alimentacao.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Recursos\Tristeza\cachorrotriste.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Recursos\Tristeza\triste.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
