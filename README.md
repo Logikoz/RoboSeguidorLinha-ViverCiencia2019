@@ -25,8 +25,8 @@ Os alunos Selemias e Gustavo ficaram responsáveis por montarem o Robo.<br>
 Os alunos Eduardo Roberto e Dalton ficaram com a programaçao de imagens.<br>
 Os alunos Ycharo e Sarah ficaram com a montagem da pista.<br>
 
+#fotodamontagemdapista
+
 ### Resultados
 
 #fotodoroboterminado
-
-#fotodamontagemdapista
