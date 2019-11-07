@@ -18,9 +18,11 @@ Sarah Ludmyla, Eduardo Roberto, Selemias, Gustavo, Dalton e Ycharo
 #### Orientadores
 Lídia Rocha e Ruan Carlos
 
-Os alunos Selemias e Gustavo ficaram responsáveis por montarem o Robo.
-Os alunos Eduardo Roberto e Dalton ficaram com a programaçao de imagens.
-Os alunos Ycharo e Sarah ficaram com a montagem da pista.
+Os alunos Selemias e Gustavo ficaram responsáveis por montarem o Robo.<br>
+Os alunos Eduardo Roberto e Dalton ficaram com a programaçao de imagens.<br>
+Os alunos Ycharo e Sarah ficaram com a montagem da pista.<br>
+
+### Resultados
 
 #fotodoroboterminado
 
