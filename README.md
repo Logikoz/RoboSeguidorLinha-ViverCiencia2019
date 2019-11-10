@@ -11,14 +11,6 @@ Estamos trabalhando com um Robo que tem dois arduínos (Uno e Mega) e com sensor
 
 O arduino Mega será responsavel pela movimentaçao do robo, com a ajuda dos sensores infravermelhos, o robo identifica onde está a pista.
 
-### Participantes
-
-#### Alunos
-Sarah Ludmyla, Eduardo Roberto, Selemias, Gustavo, Dalton e Ycharo
-
-#### Orientadores
-Lídia Rocha e Ruan Carlos
-
 ### Desenvolvimento
 
 Os alunos Selemias e Gustavo ficaram responsáveis por montarem o Robo.<br>
@@ -30,6 +22,14 @@ Os alunos Ycharo e Sarah ficaram com a montagem da pista.<br>
 ### Resultados
 
 #fotodoroboterminado
+
+### Participantes
+
+#### Alunos
+Sarah Ludmyla, Eduardo Roberto, Selemias, Gustavo, Dalton e Ycharo
+
+#### Orientadores
+Lídia Rocha e Ruan Carlos
 
 ### Referencias
 - [Robo seguidor de linha - IFAC RB](https://github.com/Logikoz/RoboSeguidorLinha-ViverCiencia2019/tree/master/Arduino/PDF)
