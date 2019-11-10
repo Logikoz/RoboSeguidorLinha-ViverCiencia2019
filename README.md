@@ -30,3 +30,10 @@ Os alunos Ycharo e Sarah ficaram com a montagem da pista.<br>
 ### Resultados
 
 #fotodoroboterminado
+
+### Referencias
+- [Robo seguidor de linha - IFAC RB]()
+- [Leitor de cartao - Blog da Robotica](http://blogdarobotica.com/tutorial-controle-de-acesso-via-rfid-e-arduino/)
+- [WebServer](https://www.youtube.com/watch?v=8xfQ45XCU80)
+
+
