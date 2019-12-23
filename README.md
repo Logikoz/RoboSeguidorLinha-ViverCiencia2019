@@ -17,8 +17,6 @@ Os alunos Selemias e Gustavo ficaram responsáveis por montarem o Robo.<br>
 Os alunos Eduardo Roberto e Dalton ficaram com a programaçao de imagens.<br>
 Os alunos Ycharo e Sarah ficaram com a montagem da pista.<br>
 
-#fotodamontagemdapista
-
 ### Resultados
 
 #fotodoroboterminado
@@ -30,6 +28,9 @@ Sarah Ludmyla, Eduardo Roberto, Selemias, Gustavo, Dalton e Ycharo
 
 #### Orientadores
 Lídia Rocha e Ruan Carlos
+
+![Pessoinhas](https://user-images.githubusercontent.com/37851168/71382213-e9775e80-25a4-11ea-8ca1-f0631733eda8.jpg)
+
 
 ### Referencias
 - [Robo seguidor de linha - IFAC RB](https://github.com/Logikoz/RoboSeguidorLinha-ViverCiencia2019/tree/master/Arduino/PDF)
