@@ -20,7 +20,9 @@ O orientador Ruan Carlos ficou responsavel pelo desenvolvimento do desktop app.
 
 ### Resultados
 
-#fotodoroboterminado
+![IMG-20191101-WA0057](https://user-images.githubusercontent.com/37851168/71430253-ba421980-2698-11ea-9d51-d5c313fa53a1.jpg)
+![IMG-20191031-WA0003](https://user-images.githubusercontent.com/37851168/71430254-ba421980-2698-11ea-8dec-5a384d400b38.jpg)
+![IMG-20191101-WA0002](https://user-images.githubusercontent.com/37851168/71430255-badab000-2698-11ea-9c92-70c5bda0b96c.jpg)
 
 ### Participantes
 
