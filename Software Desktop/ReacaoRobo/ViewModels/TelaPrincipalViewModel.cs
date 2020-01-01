@@ -14,7 +14,6 @@ using RestSharp.Serialization.Json;
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -34,22 +33,19 @@ namespace ReacaoRobo.ViewModels
     /// </summary>
     internal class TelaPrincipalViewModel : ViewModelBase
     {
-        //eventos
-        public event PropertyChangedEventHandler PropertyChanged;
+        private readonly TelaPrincipalView _tela;
 
         private DispatcherTimer timerRequisicao;
-
-        private readonly TelaPrincipalView _tela;
         private List<ReacaoModel> imagens;
         private ReacaoModel reacaoAnterior;
         private ToggleButton desligarToggleButton;
         private byte qtdRequisicoesFail = 0;
 
-        private Border _statusRobo;
-        private string _servidorURI = "http://192.168.43.91"; //IP padrao
-        private string _tempoRequisicao = "1000"; //tempo padrao.
-        private string _textoDescricao;
-        private string _tipoReacao = "Indisponível";
+        private Border __statusRobo;
+        private string __servidorURI = "http://192.168.43.91"; //IP padrao
+        private string __tempoRequisicao = "1000"; //tempo padrao.
+        private string __textoDescricao;
+        private string __tipoReacao = "Indisponível";
 
         //propriedades
         /// <summary>
@@ -57,8 +53,8 @@ namespace ReacaoRobo.ViewModels
         /// </summary>
         public Border StatusRobo
         {
-            get => _statusRobo;
-            set => Set(ref _statusRobo, value);
+            get => __statusRobo;
+            set => Set(ref __statusRobo, value);
         }
 
         /// <summary>
@@ -66,8 +62,8 @@ namespace ReacaoRobo.ViewModels
         /// </summary>
         public string ServidorURI
         {
-            get => _servidorURI;
-            set => Set(ref _servidorURI, value);
+            get => __servidorURI;
+            set => Set(ref __servidorURI, value);
         }
 
         /// <summary>
@@ -75,27 +71,26 @@ namespace ReacaoRobo.ViewModels
         /// </summary>
         public string TempoRequisicao
         {
-            get => _tempoRequisicao;
+            get => __tempoRequisicao;
             set
             {
                 _ = int.TryParse(value, out int result);
                 timerRequisicao.Interval = new TimeSpan(0, 0, 0, 0, result);
-                Set(ref _tempoRequisicao, value);
+                Set(ref __tempoRequisicao, value);
             }
         }
 
         /// <summary>
         /// Comando para definir o <see cref="StatusRobo"/>.
         /// </summary>
-        public RelayCommand<ToggleButton> StatusRequisicao { get; private set; }
 
         /// <summary>
         /// Define o texto que contém na descriçao da reaçao.
         /// </summary>
         public string TextoDescricao
         {
-            get => _textoDescricao;
-            set => Set(ref _textoDescricao, value);
+            get => __textoDescricao;
+            set => Set(ref __textoDescricao, value);
         }
 
         /// <summary>
@@ -103,9 +98,11 @@ namespace ReacaoRobo.ViewModels
         /// </summary>
         public string TipoReacao
         {
-            get => _tipoReacao;
-            set => Set(ref _tipoReacao, value);
+            get => __tipoReacao;
+            set => Set(ref __tipoReacao, value);
         }
+
+        public RelayCommand<ToggleButton> StatusRequisicao { get; private set; }
 
         //construtores
         public TelaPrincipalViewModel(TelaPrincipalView tela)
