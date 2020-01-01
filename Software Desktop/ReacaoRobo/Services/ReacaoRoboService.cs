@@ -1,5 +1,7 @@
 ﻿using ReacaoRobo.ViewModels;
+
 using RestSharp;
+
 using System;
 using System.Threading.Tasks;
 

@@ -1,92 +1,92 @@
 ﻿[
-	{
-		"CardID": "ID_Cartao_Felicidade",
-		"Caminho": "spacecat.jpg",
-		"Categoria": 0,
-		"Descricao": "Animais podem criar um ambiente alegre"
-	},
-	{
-		"CardID": "ID_Cartao_Felicidade",
-		"Caminho": "frenchdog.jpg",
-		"Categoria": 0,
-		"Descricao": "Viajar faz bem para o corpo e a mente"
-	},
-	{
-		"CardID": "ID_Cartao_Felicidade",
-		"Caminho": "painterdog.jpg",
-		"Categoria": 0,
-		"Descricao": "Realizar atividades de seu interesse causará o enorme sentimento de realização."
-	},
-	{
-		"CardID": "ID_Cartao_Tristeza",
-		"Caminho": "cachorrotriste.jpg",
-		"Categoria": 1,
-		"Descricao": "Evite ficar sozinho, o isolamento é o caminho mais rápido para uma possível depressão."
-	},
-	{
-		"CardID": "ID_Cartao_Tristeza",
-		"Caminho": "triste.png",
-		"Categoria": 1,
-		"Descricao": "Se você não se sente bem em um período muito longo, converse e desabafe com seus amigos.Existem pessoas que realmente se importam com você."
-	},
-	{
-		"CardID": "ID_Cartao_Tristeza",
-		"Caminho": "alimentacao.jpg",
-		"Categoria": 1,
-		"Descricao": "A má alimentação está ligada ao estresse e tristeza. Consuma alimentos mais saudáveis de forma frequente."
-	},
-	{
-		"CardID": "ID_Cartao_Ansiedade",
-		"Caminho": "espelho.png",
-		"Categoria": 2,
-		"Descricao": "Diga palavras que fortalecem sua auto-estima. Quando tiver algo importante para fazer diga que conseguirá!"
-	},
-	{
-		"CardID": "ID_Cartao_Ansiedade",
-		"Caminho": "organize.jpg",
-		"Categoria": 2,
-		"Descricao": "O primeiro passo para tratar a ansiedade é realizando planejamentos de forma organizada de seus deveres."
-	},
-	{
-		"CardID": "ID_Cartao_Ansiedade",
-		"Caminho": "esporte.jpg",
-		"Categoria": 2,
-		"Descricao": "Pratique esportes quando estiver ansioso, se sentirá aliviado da tensão."
-	},
-	{
-		"CardID": "ID_Cartao_Raiva",
-		"Caminho": "trabalho.jpg",
-		"Categoria": 3,
-		"Descricao": "Nos ambientes coletivos devemos manter a calma pois as pessoas ao nosso redor podem ser afetadas negativamente pelo nosso estresse."
-	},
-	{
-		"CardID": "ID_Cartao_Raiva",
-		"Caminho": "cachorrodormindo.jpg",
-		"Categoria": 3,
-		"Descricao": "Boas horas de descanso envitam o estresse das atividades cotidianas."
-	},
-	{
-		"CardID": "ID_Cartao_Raiva",
-		"Caminho": "aperto.jpg",
-		"Categoria": 3,
-		"Descricao": "Deixar a raiva de lado e fazer as pazes com quem você brigou é mais rentável, ambos saem ganhando."
-	},
-	{
-		"CardID": "ID_Cartao_Prazer",
-		"Caminho": "comida.jpg",
-		"Categoria": 4,
-		"Descricao": "Sons,sabores e imagens agradáveis podem causar prazer"
-	},
-	{
-		"CardID": "ID_Cartao_Prazer",
-		"Caminho": "musica.jpg",
-		"Categoria": 4,
-		"Descricao": "Ouvir músicas de nosso agrado causa sensação de prazer"
-	},
-	{
-		"CardID": "ID_Cartao_Prazer",
-		"Caminho": "amigos.jpg",
-		"Categoria": 4,
-		"Descricao": "Estar na companhia de pessoas que gostamos gera prazer"
-	}
+  {
+    "CardID": "ID_Cartao_Felicidade",
+    "Caminho": "spacecat.jpg",
+    "Categoria": 0,
+    "Descricao": "Animais podem criar um ambiente alegre"
+  },
+  {
+    "CardID": "ID_Cartao_Felicidade",
+    "Caminho": "frenchdog.jpg",
+    "Categoria": 0,
+    "Descricao": "Viajar faz bem para o corpo e a mente"
+  },
+  {
+    "CardID": "ID_Cartao_Felicidade",
+    "Caminho": "painterdog.jpg",
+    "Categoria": 0,
+    "Descricao": "Realizar atividades de seu interesse causará o enorme sentimento de realização."
+  },
+  {
+    "CardID": "ID_Cartao_Tristeza",
+    "Caminho": "cachorrotriste.jpg",
+    "Categoria": 1,
+    "Descricao": "Evite ficar sozinho, o isolamento é o caminho mais rápido para uma possível depressão."
+  },
+  {
+    "CardID": "ID_Cartao_Tristeza",
+    "Caminho": "triste.png",
+    "Categoria": 1,
+    "Descricao": "Se você não se sente bem em um período muito longo, converse e desabafe com seus amigos.Existem pessoas que realmente se importam com você."
+  },
+  {
+    "CardID": "ID_Cartao_Tristeza",
+    "Caminho": "alimentacao.jpg",
+    "Categoria": 1,
+    "Descricao": "A má alimentação está ligada ao estresse e tristeza. Consuma alimentos mais saudáveis de forma frequente."
+  },
+  {
+    "CardID": "ID_Cartao_Ansiedade",
+    "Caminho": "espelho.png",
+    "Categoria": 2,
+    "Descricao": "Diga palavras que fortalecem sua auto-estima. Quando tiver algo importante para fazer diga que conseguirá!"
+  },
+  {
+    "CardID": "ID_Cartao_Ansiedade",
+    "Caminho": "organize.jpg",
+    "Categoria": 2,
+    "Descricao": "O primeiro passo para tratar a ansiedade é realizando planejamentos de forma organizada de seus deveres."
+  },
+  {
+    "CardID": "ID_Cartao_Ansiedade",
+    "Caminho": "esporte.jpg",
+    "Categoria": 2,
+    "Descricao": "Pratique esportes quando estiver ansioso, se sentirá aliviado da tensão."
+  },
+  {
+    "CardID": "ID_Cartao_Raiva",
+    "Caminho": "trabalho.jpg",
+    "Categoria": 3,
+    "Descricao": "Nos ambientes coletivos devemos manter a calma pois as pessoas ao nosso redor podem ser afetadas negativamente pelo nosso estresse."
+  },
+  {
+    "CardID": "ID_Cartao_Raiva",
+    "Caminho": "cachorrodormindo.jpg",
+    "Categoria": 3,
+    "Descricao": "Boas horas de descanso envitam o estresse das atividades cotidianas."
+  },
+  {
+    "CardID": "ID_Cartao_Raiva",
+    "Caminho": "aperto.jpg",
+    "Categoria": 3,
+    "Descricao": "Deixar a raiva de lado e fazer as pazes com quem você brigou é mais rentável, ambos saem ganhando."
+  },
+  {
+    "CardID": "ID_Cartao_Prazer",
+    "Caminho": "comida.jpg",
+    "Categoria": 4,
+    "Descricao": "Sons,sabores e imagens agradáveis podem causar prazer"
+  },
+  {
+    "CardID": "ID_Cartao_Prazer",
+    "Caminho": "musica.jpg",
+    "Categoria": 4,
+    "Descricao": "Ouvir músicas de nosso agrado causa sensação de prazer"
+  },
+  {
+    "CardID": "ID_Cartao_Prazer",
+    "Caminho": "amigos.jpg",
+    "Categoria": 4,
+    "Descricao": "Estar na companhia de pessoas que gostamos gera prazer"
+  }
 ]

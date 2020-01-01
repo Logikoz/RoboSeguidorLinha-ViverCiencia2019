@@ -1,6 +1,4 @@
 ﻿using System.Reflection;
-using System.Resources;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -30,7 +28,6 @@ using System.Windows;
 
 //[assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
 
-
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None, //onde os dicionários de recursos de temas específicos estão localizados
                                      //(usado se algum recurso não for encontrado na página,
@@ -40,11 +37,10 @@ using System.Windows;
                                               // app, ou qualquer outro dicionário de recursos de tema específico)
 )]
 
-
 // As informações da versão de um assembly consistem nos quatro valores a seguir:
 //
 //      Versão Principal
-//      Versão Secundária 
+//      Versão Secundária
 //      Número da Versão
 //      Revisão
 //

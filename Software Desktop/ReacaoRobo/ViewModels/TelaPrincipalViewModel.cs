@@ -1,11 +1,17 @@
-﻿using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+
 using MaterialDesignThemes.Wpf;
+
 using Newtonsoft.Json;
+
 using ReacaoRobo.Models;
 using ReacaoRobo.Services;
 using ReacaoRobo.Views;
+
 using RestSharp;
 using RestSharp.Serialization.Json;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,6 +24,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+
 using reacoes = ReacaoRobo.Models.CategoriaReacoesEnum;
 
 namespace ReacaoRobo.ViewModels
@@ -25,14 +32,14 @@ namespace ReacaoRobo.ViewModels
     /// <summary>
     /// Reponsável pelo binding do Model e View.
     /// </summary>
-    internal class TelaPrincipalViewModel : INotifyPropertyChanged
+    internal class TelaPrincipalViewModel : ViewModelBase
     {
         //eventos
         public event PropertyChangedEventHandler PropertyChanged;
 
-        //campos
         private DispatcherTimer timerRequisicao;
-        private readonly TelaPrincipalView tela;
+
+        private readonly TelaPrincipalView _tela;
         private List<ReacaoModel> imagens;
         private ReacaoModel reacaoAnterior;
         private ToggleButton desligarToggleButton;
@@ -51,24 +58,18 @@ namespace ReacaoRobo.ViewModels
         public Border StatusRobo
         {
             get => _statusRobo;
-            set
-            {
-                _statusRobo = value;
-                AlterarValor("StatusRobo");
-            }
+            set => Set(ref _statusRobo, value);
         }
+
         /// <summary>
         /// Define a URI do site que será feita as requisiçoes.
         /// </summary>
         public string ServidorURI
         {
             get => _servidorURI;
-            set
-            {
-                _servidorURI = value;
-                AlterarValor("ServidorURI");
-            }
+            set => Set(ref _servidorURI, value);
         }
+
         /// <summary>
         /// Define o tempo em (ms) que será feito as requisiçoes.
         /// </summary>
@@ -77,52 +78,45 @@ namespace ReacaoRobo.ViewModels
             get => _tempoRequisicao;
             set
             {
-                _tempoRequisicao = value;
                 _ = int.TryParse(value, out int result);
                 timerRequisicao.Interval = new TimeSpan(0, 0, 0, 0, result);
-                AlterarValor("TempoRequisicao");
+                Set(ref _tempoRequisicao, value);
             }
         }
+
         /// <summary>
         /// Comando para definir o <see cref="StatusRobo"/>.
         /// </summary>
         public RelayCommand<ToggleButton> StatusRequisicao { get; private set; }
+
         /// <summary>
         /// Define o texto que contém na descriçao da reaçao.
         /// </summary>
         public string TextoDescricao
         {
             get => _textoDescricao;
-            set
-            {
-                _textoDescricao = value;
-                AlterarValor("TextoDescricao");
-            }
+            set => Set(ref _textoDescricao, value);
         }
+
         /// <summary>
         /// Define o texto do tipo da reaçao (<see cref="reacoes.Ansiedade "/>, <see cref="reacoes.Felicidade"/>, <see cref="reacoes.Prazer"/>, <see cref="reacoes.Raiva"/>, <see cref="reacoes.Tristeza"/>).
         /// </summary>
         public string TipoReacao
         {
             get => _tipoReacao;
-            set
-            {
-                _tipoReacao = value;
-                AlterarValor("TipoReacao");
-            }
+            set => Set(ref _tipoReacao, value);
         }
 
         //construtores
         public TelaPrincipalViewModel(TelaPrincipalView tela)
         {
             IniciarTimer();
-            this.tela = tela;
+            _tela = tela;
             StatusRequisicao = new RelayCommand<ToggleButton>(AlterarStatusRequisicao);
             LerLocalJson();
         }
 
         //metodos
-        public void AlterarValor(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         private void IniciarTimer()
         {
             //verificando se foi possivel fazer a conversao, e iniciando o timer caso verdadeiro.
@@ -132,7 +126,9 @@ namespace ReacaoRobo.ViewModels
                 timerRequisicao.Tick += TimerRequisicao_Tick;
             }
         }
+
         private void TimerRequisicao_Tick(object sender, EventArgs e) => FazendoRequisicoesAsync();
+
         //definir se as requisiçoes estao ligadas ou nao.
         private void AlterarStatusRequisicao(ToggleButton tb)
         {
@@ -140,7 +136,7 @@ namespace ReacaoRobo.ViewModels
             if (tb.IsChecked.Value)
             {
                 timerRequisicao.Start();
-                tela.CaixaRespostaRequisicao_rtb.Document.Blocks.Clear();
+                _tela.CaixaRespostaRequisicao_rtb.Document.Blocks.Clear();
             }
             else
             {
@@ -149,6 +145,7 @@ namespace ReacaoRobo.ViewModels
                 AlterandoDesconhecido();
             }
         }
+
         //faz as requisiçoes para verificar se há alguma reaçao para ser mostrada.
         private async void FazendoRequisicoesAsync()
         {
@@ -180,6 +177,7 @@ namespace ReacaoRobo.ViewModels
                     AlterarStatusRobo(StatusRoboEnum.Conectado);
                     qtdRequisicoesFail = 0;
                     break;
+
                 case 0:
                     AdicionarNovaLinha("Requisiçao falhou.");
                     if (qtdRequisicoesFail == 5)
@@ -190,18 +188,20 @@ namespace ReacaoRobo.ViewModels
                     }
                     qtdRequisicoesFail++;
                     break;
+
                 default:
                     AlterandoDesconhecido();
                     break;
             }
         }
+
         //Ler o arquivo json que está na ./ do app.
         private async void LerLocalJson()
         {
             using StreamReader ler = File.OpenText("./Recursos/reacoes.json");
             imagens = JsonConvert.DeserializeObject<List<ReacaoModel>>(await ler.ReadToEndAsync());
-
         }
+
         //adiciona uma nova reaçao na tela
         private void VisualizarReacao(ReacaoModel reacao)
         {
@@ -218,7 +218,7 @@ namespace ReacaoRobo.ViewModels
                     TextoDescricao = imagemSorteada.Descricao;
                     TipoReacao = imagemSorteada.Categoria.ToString();
                     //limpando grid de visualizaçao, e adicionando uma nova imagem.
-                    tela.GridImagens_gd.Children.Clear();
+                    _tela.GridImagens_gd.Children.Clear();
                     AdicinandoReacao(imagemSorteada);
                     //atribuindo a reacao atual para o campo para evitar que a proxima requisiçao seja a mesma.
                     reacaoAnterior = imagemSorteada;
@@ -230,10 +230,11 @@ namespace ReacaoRobo.ViewModels
                 }
             }
         }
+
         private void AdicinandoReacao(ReacaoModel imagemSorteada)
         {
             //adicinando um novo card no grid onde é mostrado a imagem da reaçao.
-            _ = tela.GridImagens_gd.Children.Add(
+            _ = _tela.GridImagens_gd.Children.Add(
                 new Card
                 {
                     //adicionando a imagem no conteudo do card.
@@ -245,6 +246,7 @@ namespace ReacaoRobo.ViewModels
                     }
                 });
         }
+
         private void AlterarStatusRobo(StatusRoboEnum status)
         {
             Border border = new Border() { CornerRadius = new CornerRadius(10), Child = new TextBlock { Foreground = Brushes.White, Padding = new Thickness(4, 3, 4, 3) } };
@@ -253,9 +255,11 @@ namespace ReacaoRobo.ViewModels
                 case StatusRoboEnum.Conectado:
                     ((border.Child as TextBlock).Text, border.Background) = ("Conectado", Brushes.Green);
                     break;
+
                 case StatusRoboEnum.Desconectado:
                     ((border.Child as TextBlock).Text, border.Background) = ("Desconectado", Brushes.Red);
                     break;
+
                 case StatusRoboEnum.Desconhecido:
                     ((border.Child as TextBlock).Text, border.Background) = ("Desconhecido", Brushes.Gray);
                     break;
@@ -263,12 +267,13 @@ namespace ReacaoRobo.ViewModels
 
             StatusRobo = border;
         }
+
         //Alterando visualizaçao ao ocorrer um erro na requisiçao
         //ou, o usuario desativar as requisiçoes.
         private void LimparVisualizacao(StatusRoboEnum roboEnum)
         {
-            tela.GridImagens_gd.Children.Clear();
-            _ = tela.GridImagens_gd.Children.Add(
+            _tela.GridImagens_gd.Children.Clear();
+            _ = _tela.GridImagens_gd.Children.Add(
                 new Card
                 {
                     VerticalAlignment = VerticalAlignment.Stretch,
@@ -278,15 +283,17 @@ namespace ReacaoRobo.ViewModels
             switch (roboEnum)
             {
                 case StatusRoboEnum.Desconectado:
-                    (((tela.GridImagens_gd.Children[0] as Card).Content as TextBlock).Text, reacaoAnterior) = ("Sem Sinal!", null);
+                    (((_tela.GridImagens_gd.Children[0] as Card).Content as TextBlock).Text, reacaoAnterior) = ("Sem Sinal!", null);
                     break;
+
                 case StatusRoboEnum.Desconhecido:
-                    (((tela.GridImagens_gd.Children[0] as Card).Content as TextBlock).Text, reacaoAnterior) = ("Viver Ciência 2019", null);
+                    (((_tela.GridImagens_gd.Children[0] as Card).Content as TextBlock).Text, reacaoAnterior) = ("Viver Ciência 2019", null);
                     break;
             }
             //removendo tipo da reacao e descriçao
             ZerandoDescricao();
         }
+
         //Caso dispare uma exception, quer dizer que a URI nao está em um formato valido.
         private bool VerificarValidadeURI()
         {
@@ -297,32 +304,37 @@ namespace ReacaoRobo.ViewModels
             }
             catch
             {
-                tela.BarraNotificacao_sb.MessageQueue.Enqueue("Formato do IP do servidor é inválido.");
+                _tela.BarraNotificacao_sb.MessageQueue.Enqueue("Formato do IP do servidor é inválido.");
                 desligarToggleButton.IsChecked = false;
                 AlterarStatusRequisicao(desligarToggleButton);
                 return false;
             }
         }
+
         //converte o tempo da requisiçao para inteiro.
         private int TempoRequisisaoToInt()
         {
             _ = int.TryParse(TempoRequisicao, out int result);
             return result;
         }
+
         private void AdicionarNovaLinha(string valor)
         {
             //adiciona uma nova linha no RichTextBox
-            tela.CaixaRespostaRequisicao_rtb.AppendText($"{DateTime.Now.ToString("HH:mm")}: {valor}\n");
+            _tela.CaixaRespostaRequisicao_rtb.AppendText($"{DateTime.Now.ToString("HH:mm")}: {valor}\n");
             //move o scroll para o ultimo texto inserido.
-            tela.CaixaRespostaRequisicao_rtb.ScrollToEnd();
+            _tela.CaixaRespostaRequisicao_rtb.ScrollToEnd();
         }
+
         private void ZerandoDescricao() => (TextoDescricao, TipoReacao) = (string.Empty, "Indisponível");
+
         private void DesativarRequisicoes()
         {
             desligarToggleButton.IsChecked = false;
             AlterarStatusRequisicao(desligarToggleButton);
             ZerandoDescricao();
         }
+
         private void AlterandoDesconhecido()
         {
             AlterarStatusRobo(StatusRoboEnum.Desconhecido);

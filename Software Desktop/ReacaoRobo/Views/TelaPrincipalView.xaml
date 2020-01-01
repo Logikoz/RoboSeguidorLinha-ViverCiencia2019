@@ -62,7 +62,6 @@
                                     Height="300"
                                     Margin="10"
                                     Source="/Recursos/QRCode.png" />
-
                             </Grid>
                         </Image.ToolTip>
                     </Image>
@@ -211,7 +210,6 @@
                             <Run Text="Reação: " />
                             <Run Foreground="{StaticResource PrimaryHueLightBrush}" Text="{Binding TipoReacao, Mode=TwoWay}" />
                         </TextBlock>
-
                     </StackPanel>
                     <TextBlock
                         Margin="10"
@@ -221,7 +219,6 @@
                         TextWrapping="Wrap" />
                 </StackPanel>
             </Border>
-
         </materialDesign:Card>
         <materialDesign:Snackbar
             x:Name="BarraNotificacao_sb"
