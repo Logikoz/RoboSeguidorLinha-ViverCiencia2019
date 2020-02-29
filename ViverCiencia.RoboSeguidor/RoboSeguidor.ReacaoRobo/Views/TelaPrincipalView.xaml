@@ -54,13 +54,13 @@
                         Margin="20,3,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Source="/Recursos/QRCode.png">
+                        Source="/Recursos/QRCode.png"
+                        ToolTipService.ShowDuration="999999">
                         <Image.ToolTip>
                             <Grid>
                                 <Image
                                     Width="300"
                                     Height="300"
-                                    Margin="10"
                                     Source="/Recursos/QRCode.png" />
                             </Grid>
                         </Image.ToolTip>
